@@ -1,12 +1,19 @@
 plugins {
 	java
 	application
+	id ("checkstyle")
 	id("org.springframework.boot") version "3.1.4"
 	id("io.spring.dependency-management") version "1.1.3"
 
 }
 
 application { mainClass.set("hexlet.code.AppApplication") }
+
+
+checkstyle {
+	toolVersion = "10.12.1"
+
+}
 
 group = "hexlet.code"
 version = "0.0.1-SNAPSHOT"
@@ -27,6 +34,12 @@ dependencies {
 
 }
 
+tasks.register("stage") {
+	dependsOn("installDist")
+}
+
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
+
