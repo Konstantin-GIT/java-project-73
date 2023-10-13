@@ -36,6 +36,17 @@ public class AppApplicationTests {
         assertThat(body).contains("Welcome to Spring");
     }
 
+    @Test
+    public void contextLoads() {
+        // Проверка, что контекст Spring загружается без ошибок
+    }
+
+    @Test
+    public void mainMethodTest() {
+        // Проверка, что метод main запускается без ошибок
+        AppApplication.main(new String[] {});
+    }
+
 /*
     @Test
     public void testShow() throws Exception {
