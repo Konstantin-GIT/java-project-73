@@ -2,6 +2,7 @@ plugins {
 	java
 	application
 	id ("checkstyle")
+	id ("jacoco")
 	id("org.springframework.boot") version "3.1.4"
 	id("io.spring.dependency-management") version "1.1.3"
 
@@ -40,6 +41,12 @@ tasks.register("stage") {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+tasks.jacocoTestReport {
+	reports {
+		xml.required = true
+	}
 }
 
 
