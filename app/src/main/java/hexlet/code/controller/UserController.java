@@ -7,6 +7,7 @@ import hexlet.code.exception.ResourceNotFoundException;
 import hexlet.code.mapper.UserMapper;
 import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
+import hexlet.code.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,8 +19,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +31,9 @@ public class UserController {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    UserService userService;
 
 
     @GetMapping(path = "/users/{id}")
@@ -55,11 +57,8 @@ public class UserController {
 
     @PostMapping(path = "/users")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDTO create(@RequestBody UserCreateDTO postData) {
-        var user = userMapper.map(postData);
-        userRepository.save(user);
-        var userDTO = userMapper.map(user);
-        return userDTO;
+    public UserDTO create(@RequestBody UserCreateDTO userData) {
+        return userService.createUser(userData);
     }
 
     @PutMapping(path = "/users/{id}")
