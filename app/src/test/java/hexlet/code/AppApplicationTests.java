@@ -10,10 +10,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.mock.http.server.reactive.MockServerHttpRequest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.MediaType;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -22,12 +20,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.datafaker.Faker;
 import org.instancio.Select;
-import org.mockito.Mock;
 import org.instancio.Instancio;
-
 import java.util.HashMap;
-
-import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -134,19 +128,20 @@ public class AppApplicationTests {
         userRepository.save(user);
 
         var userData = new HashMap<>();
-            userData.put("firstname","test-firstName-user-updated");
-            userData.put("lastname", "test-lastName-user-updated");
-            userData.put("email", "test-email-user-updated");
-            userData.put("password", "test-password-user-updated");
+        userData.put("firstname", "test-firstName-user-updated");
+        userData.put("lastname", "test-lastName-user-updated");
+        userData.put("email", "test-email-user-updated");
+        userData.put("password", "test-password-user-updated");
 
         // не уверен что создавать экземпляр User для тестов через метод setUp() а потом доставать его - оптимально,
         // но хотелось как-то начать убирать дублирования кода в тестах.
-        //В итоге метод findByFirstnameAndLastnameAndEmailAndPassword() не заработал(не находил User) и я закомментировал мето setUp()
-       /* var user = userRepository
-            .findByFirstnameAndLastnameAndEmailAndPassword("test-firstName-user", "test-lastName-user",
-                "test-email-user", "test-password-user-updated")
-            .orElseThrow(() -> new ResourceNotFoundException("User to perform testUdate() not found"));
-*/
+        //В итоге метод findByFirstnameAndLastnameAndEmailAndPassword() не заработал(не находил User)
+        // и я закомментировал мето setUp()
+       // var user = userRepository
+         //   .findByFirstnameAndLastnameAndEmailAndPassword("test-firstName-user", "test-lastName-user",
+         //       "test-email-user", "test-password-user-updated")
+        //    .orElseThrow(() -> new ResourceNotFoundException("User to perform testUdate() not found"));
+
         var request = put("/api/users/" + user.getId())
             .contentType(MediaType.APPLICATION_JSON)
             .content(om.writeValueAsString(userData));
