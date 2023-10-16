@@ -1,7 +1,7 @@
 # application-postgresql.yml
 spring:
   datasource:
-    url: jdbc:postgresql://pg-ckkkbrcl4vmc73allu4g-a:singapore-postgres:render:com/java_project_72_dbname
+    url: jdbc:postgresql://pg-ckkkbrcl4vmc73allu4g-a:singapore-postgres:render:com/java_project_73_dbname_db_p9im
     username: java_project_73_dbname_db_p9im_user
     password: gQulGgjImrY9VsrwUhSJSFKFwIGQ52bp
   jpa:

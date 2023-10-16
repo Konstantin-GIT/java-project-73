@@ -1,12 +1,10 @@
 spring:
   profiles:
-    active: prod
-    #@spring.profile@
+    active: dev
+
 server:
   port: ${PORT:5001}
 
 logging:
   level:
     root: INFO
-
-

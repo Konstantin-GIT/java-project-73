@@ -18,6 +18,12 @@ lint:
 report:
 	./gradlew jacocoTestReport
 
+start:
+	./gradlew bootRun --args='--spring.profiles.active=dev'
+
+start-prod:
+	./gradlew bootRun --args='--spring.profiles.active=prod'
+
 build-run: build run
 
 .PHONY: build
