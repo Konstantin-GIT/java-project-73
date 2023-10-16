@@ -9,6 +9,7 @@ import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
 import hexlet.code.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api")
+@RequestMapping("${api.base-url}" + "/users")
 public class UserController {
 
     @Autowired
@@ -35,8 +36,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
-
-    @GetMapping(path = "/users/{id}")
+    @GetMapping(path = "/{id}")
     public UserDTO show(@PathVariable Long id) {
         var user = userRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("User with id " + id + "not found"));
@@ -45,7 +45,7 @@ public class UserController {
         return userDTO;
     }
 
-    @GetMapping(path = "/users")
+    @GetMapping
     public List<UserDTO> index() {
         var users = userRepository.findAll();
         var usersDTO = new ArrayList<UserDTO>();
@@ -55,13 +55,13 @@ public class UserController {
         return usersDTO;
     }
 
-    @PostMapping(path = "/users")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDTO create(@RequestBody UserCreateDTO userData) {
         return userService.createUser(userData);
     }
 
-    @PutMapping(path = "/users/{id}")
+    @PutMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public UserDTO update(@PathVariable Long id, @RequestBody UserUpdateDTO userData) {
         var user = userRepository.findById(id)
@@ -72,7 +72,7 @@ public class UserController {
         return userDTO;
     }
 
-    @DeleteMapping(path = "/users/{id}")
+    @DeleteMapping(path = "/{id}")
     public void delete(@PathVariable Long id) {
         userRepository.deleteById(id);
     }

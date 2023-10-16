@@ -8,3 +8,6 @@ server:
 logging:
   level:
     root: INFO
+
+api:
+  base-url: /api
