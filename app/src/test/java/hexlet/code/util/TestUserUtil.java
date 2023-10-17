@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
 
-public class TestUtil {
+public class TestUserUtil {
 
     private static ObjectMapper om = new ObjectMapper();
 
