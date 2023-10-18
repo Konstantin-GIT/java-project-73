@@ -1,4 +1,4 @@
-package hexlet.code;
+/*package hexlet.code;
 /*
 import hexlet.code.exception.UserNotFoundException;
 import hexlet.code.model.User;

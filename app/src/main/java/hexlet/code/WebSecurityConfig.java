@@ -1,19 +1,16 @@
-package hexlet.code;
-/*
+/* package hexlet.code;
+
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import static org.springframework.http.HttpMethod.*;
-import static org.springframework.security.config.Customizer.withDefaults;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @Configuration
@@ -23,6 +20,41 @@ public class WebSecurityConfig {
     final UserDetailsServiceImpl userDetailsService;
 
     // Переопределяет схему аутентификации
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+            .csrf(AbstractHttpConfigurer::disable)
+            .authorizeHttpRequests(auth -> auth.
+                requestMatchers(publicUrls).permitAll()
+                .anyRequest().authenticated())
+            .addFilter(new JWTAuthenticationFilter(
+                authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)),
+                loginRequest,
+                jwtHelper
+            ))
+            .addFilterBefore(
+                new JWTAuthorizationFilter(publicUrls, jwtHelper),
+                UsernamePasswordAuthenticationFilter.class
+            )
+            .formLogin(AbstractHttpConfigurer::disable)
+            .sessionManagement(AbstractHttpConfigurer::disable)
+            .logout(AbstractHttpConfigurer::disable)
+            .headers(headers -> headers
+                .frameOptions(frameOptions -> frameOptions
+                    .sameOrigin()))
+            .build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+
+
+
+
+
     //@Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // BEGIN
@@ -40,12 +72,10 @@ public class WebSecurityConfig {
         // END
     }
 
+
+
     // Указываем, что для сравнения хешей паролей
     // будет использоваться кодировщик BCrypt
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
 
 }
