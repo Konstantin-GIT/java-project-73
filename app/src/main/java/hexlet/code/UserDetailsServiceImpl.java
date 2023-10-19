@@ -1,9 +1,8 @@
-/*package hexlet.code;
-/*
+package hexlet.code;
+
 import hexlet.code.exception.UserNotFoundException;
 import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,13 +17,13 @@ import java.util.List;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private UserRepository repository;
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         // Получаем пользователя из репозитория
-        User user = repository.findByEmail(username)
+        User user = userRepository.findByEmail(username)
             .orElseThrow(()-> new UserNotFoundException("User not found"));
 
         String userRole = user.getRole().name();
@@ -39,4 +38,5 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     }
 
-}*/
+}
+

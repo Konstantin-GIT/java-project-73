@@ -1,5 +1,5 @@
-/*package hexlet.code;
-
+package hexlet.code;
+/*
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.exception.ResourceNotFoundException;
 import hexlet.code.model.Task;
@@ -66,7 +66,7 @@ public class AppApplicationTaskTests {
 
 
 
-    //@Test
+
     @Test
     public void testIndex() throws Exception {
         taskRepository.save(testTask);

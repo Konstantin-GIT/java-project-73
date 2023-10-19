@@ -13,6 +13,11 @@ import lombok.NoArgsConstructor;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 
@@ -23,7 +28,7 @@ import java.util.Date;
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"firstname", "lastname", "email"})
 @Table(name = "users")
-public class User {
+public class User  implements UserDetails {
 
     public User(String firstname, String lastname, String email) {
         this.firstname = firstname;
@@ -38,6 +43,7 @@ public class User {
         this.password = password;
     }
 
+    private String passwordDigest;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -49,4 +55,34 @@ public class User {
     private String password;
     @CreatedDate
     private Date createdAt;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return new ArrayList<GrantedAuthority>();
+    }
+
+    @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
 }

@@ -11,3 +11,4 @@ logging:
 
 api:
   base-url: /api
+

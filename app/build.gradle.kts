@@ -31,9 +31,11 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	//implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+	implementation("org.springframework.security:spring-security-oauth2-jose:6.0.2")
+	implementation("io.jsonwebtoken:jjwt:0.9.1")
 	implementation("com.h2database:h2:2.1.214")
 	implementation("org.postgresql:postgresql:42.6.0")
 	testImplementation("org.projectlombok:lombok:1.18.22")
@@ -48,6 +50,8 @@ dependencies {
 	testImplementation("org.hamcrest:hamcrest:2.2")
 	implementation("org.mapstruct:mapstruct:1.5.5.Final")
 	annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
+
+
 
 }
 

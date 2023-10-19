@@ -1,5 +1,5 @@
 package hexlet.code.model;
-
+/*
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -41,3 +41,4 @@ public class Task {
     @CreatedDate
     private Date createdAt;
 }
+*/

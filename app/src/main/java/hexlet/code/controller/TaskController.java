@@ -1,5 +1,5 @@
 package hexlet.code.controller;
-
+/*
 import hexlet.code.DTO.UserCreateDTO;
 import hexlet.code.DTO.UserDTO;
 import hexlet.code.DTO.UserUpdateDTO;
@@ -47,21 +47,6 @@ public class TaskController {
         return task;
     }
 
-    /*@GetMapping
-    public List<UserDTO> index() {
-        var users = userRepository.findAll();
-        var usersDTO = new ArrayList<UserDTO>();
-        for (User user : users) {
-            usersDTO.add(userMapper.map(user));
-        }
-        return usersDTO;
-    }
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public UserDTO create(@RequestBody UserCreateDTO userData) {
-        return taskRepository.createUser(userData);
-    }*/
 
     @PutMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -80,3 +65,4 @@ public class TaskController {
         taskRepository.deleteById(id);
     }
 }
+*/

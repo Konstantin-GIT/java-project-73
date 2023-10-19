@@ -18,9 +18,6 @@ lint:
 report:
 	./gradlew jacocoTestReport
 
-frontend:
-	make -C frontend start
-
 start:
 	./gradlew bootRun --args='--spring.profiles.active=dev'
 
@@ -29,8 +26,4 @@ start-prod:
 
 build-run: build run
 
-update-js-deps:
-	npx ncu -u
-
-.PHONY: build frontend
-
+.PHONY: build

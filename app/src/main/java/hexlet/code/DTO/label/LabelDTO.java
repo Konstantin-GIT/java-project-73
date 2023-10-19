@@ -1,5 +1,5 @@
 package hexlet.code.DTO.label;
-
+/*
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,3 +14,4 @@ public class LabelDTO {
     private Date createdAt;
 
 }
+*/

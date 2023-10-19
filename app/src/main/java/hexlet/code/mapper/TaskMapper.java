@@ -1,5 +1,5 @@
 package hexlet.code.mapper;
-
+/*
 import hexlet.code.DTO.UserDTO;
 import hexlet.code.DTO.task.TaskCreateDTO;
 import hexlet.code.DTO.task.TaskDTO;
@@ -21,3 +21,4 @@ public abstract class TaskMapper {
     public abstract TaskDTO map(Task model);
     public abstract void update(TaskUpdateDTO dto, @MappingTarget Task model);
 }
+*/
