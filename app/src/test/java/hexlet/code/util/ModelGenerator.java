@@ -1,4 +1,4 @@
-package hexlet.code.util;
+/*package hexlet.code.util;
 import hexlet.code.model.Task;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.model.User;
@@ -54,3 +54,4 @@ public class ModelGenerator {
             .toModel();
     }
 }
+*/

@@ -3,7 +3,11 @@ package hexlet.code.controller;
 import hexlet.code.DTO.UserCreateDTO;
 import hexlet.code.DTO.UserDTO;
 import hexlet.code.DTO.UserUpdateDTO;
+import hexlet.code.DTO.task.TaskCreateDTO;
+import hexlet.code.DTO.task.TaskDTO;
+import hexlet.code.DTO.task.TaskUpdateDTO;
 import hexlet.code.exception.ResourceNotFoundException;
+import hexlet.code.mapper.TaskMapper;
 import hexlet.code.mapper.UserMapper;
 import hexlet.code.model.Task;
 import hexlet.code.model.User;
@@ -31,6 +35,8 @@ public class TaskController {
 
     @Autowired
     TaskRepository taskRepository;
+    @Autowired
+    TaskMapper taskMapper;
 
     @GetMapping(path = "/{id}")
     public Task show(@PathVariable Long id) {
@@ -39,5 +45,38 @@ public class TaskController {
         //var userDTO = userMapper.map(user);
 
         return task;
+    }
+
+    /*@GetMapping
+    public List<UserDTO> index() {
+        var users = userRepository.findAll();
+        var usersDTO = new ArrayList<UserDTO>();
+        for (User user : users) {
+            usersDTO.add(userMapper.map(user));
+        }
+        return usersDTO;
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserDTO create(@RequestBody UserCreateDTO userData) {
+        return taskRepository.createUser(userData);
+    }*/
+
+    @PutMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public TaskDTO update(@PathVariable Long id, @RequestBody TaskUpdateDTO taskData) {
+        var task = taskRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("User with id " + id + "not found"));
+        taskMapper.update(taskData, task);
+        taskRepository.save(task);
+        var taskDTO = taskMapper.map(task);
+        return taskDTO;
+    }
+
+
+    @DeleteMapping(path = "/{id}")
+    public void delete(@PathVariable Long id) {
+        taskRepository.deleteById(id);
     }
 }
