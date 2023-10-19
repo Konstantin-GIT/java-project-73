@@ -1,5 +1,5 @@
 package hexlet.code;
-
+/*
 import hexlet.code.exception.UserNotFoundException;
 import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
@@ -39,4 +39,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
 }
-
+*/

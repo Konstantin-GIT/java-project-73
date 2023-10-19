@@ -24,7 +24,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("${api.base-url}" + "/users")
+@RequestMapping("${base-url}" + "/users")
 public class UserController {
 
     @Autowired

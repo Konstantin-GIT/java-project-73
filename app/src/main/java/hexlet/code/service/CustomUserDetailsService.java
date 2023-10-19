@@ -1,5 +1,5 @@
 package hexlet.code.service;
-
+/*
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -59,3 +59,5 @@ public class CustomUserDetailsService implements UserDetailsManager {
         throw new UnsupportedOperationException("Unimplemented method 'userExists'");
     }
 }
+
+ */

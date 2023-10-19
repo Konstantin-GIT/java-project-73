@@ -1,29 +1,55 @@
-.DEFAULT_GOAL := build-run
-
-run-dist:
-	./build/install/app/bin/app
-
-build:
+setup:
+	npm install
+	./gradlew wrapper --gradle-version 8.4
 	./gradlew build
 
-run:
-	./gradlew run
+frontend:
+	make -C frontend start
 
-test:
-	./gradlew test
-
-lint:
-	./gradlew checkstyleMain checkstyleTest
-
-report:
-	./gradlew jacocoTestReport
-
-start:
+backend:
 	./gradlew bootRun --args='--spring.profiles.active=dev'
+
+clean:
+	./gradlew clean
+
+build:
+	./gradlew clean build
+
+dev:
+	heroku local
+
+reload-classes:
+	./gradlew -t classes
 
 start-prod:
 	./gradlew bootRun --args='--spring.profiles.active=prod'
 
-build-run: build run
+install:
+	./gradlew installDist
 
-.PHONY: build
+# start-dist:
+# 	./build/install/app/bin/app
+
+lint:
+	./gradlew checkstyleMain checkstyleTest
+
+test:
+	./gradlew test
+
+# report:
+# 	./gradlew jacocoTestReport
+
+update-js-deps:
+	npx ncu -u
+
+check-java-deps:
+	./gradlew dependencyUpdates -Drevision=release
+
+# generate-migrations:
+# 	gradle diffChangeLog
+
+# db-migrate:
+# 	./gradlew update
+
+
+.PHONY: build frontend

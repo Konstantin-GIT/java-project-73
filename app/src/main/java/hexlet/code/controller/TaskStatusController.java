@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("${api.base-url}" + "/statuses")
+@RequestMapping("${base-url}" + "/statuses")
 public class TaskStatusController {
 
 

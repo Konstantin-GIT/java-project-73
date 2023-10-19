@@ -9,6 +9,5 @@ logging:
   level:
     root: INFO
 
-api:
-  base-url: /api
+base-url: /api
 

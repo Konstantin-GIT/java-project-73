@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,7 +28,7 @@ import java.util.Date;
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"firstname", "lastname", "email"})
 @Table(name = "users")
-public class User  implements UserDetails {
+public class User {
 
     public User(String firstname, String lastname, String email) {
         this.firstname = firstname;
@@ -55,7 +55,7 @@ public class User  implements UserDetails {
     private String password;
     @CreatedDate
     private Date createdAt;
-
+/*
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return new ArrayList<GrantedAuthority>();
@@ -85,4 +85,6 @@ public class User  implements UserDetails {
     public boolean isEnabled() {
         return false;
     }
+
+ */
 }
