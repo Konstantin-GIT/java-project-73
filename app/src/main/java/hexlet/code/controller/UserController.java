@@ -8,6 +8,7 @@ import hexlet.code.mapper.UserMapper;
 import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
 import hexlet.code.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,10 +23,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@AllArgsConstructor
 @RestController
-@RequestMapping("${base-url}" + "/users")
+@RequestMapping("${base-url}" + UserController.USER_CONTROLLER_PATH)
 public class UserController {
+
+    public static final String USER_CONTROLLER_PATH = "/users";
 
     @Autowired
     UserRepository userRepository;
