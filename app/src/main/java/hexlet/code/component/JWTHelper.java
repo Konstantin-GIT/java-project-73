@@ -25,6 +25,10 @@ public class JWTHelper {
                      @Value("${jwt.expiration-sec:86400}") final Long expirationSec,
                      @Value("${jwt.clock-skew-sec:300}") final Long clockSkewSec,
                      @Value("${jwt.secret:secret}") final String secret) {
+        System.out.println("issuer: " + issuer);
+        System.out.println("expirationSec: " + expirationSec);
+        System.out.println("clockSkewSec: " + clockSkewSec);
+        System.out.println("secret: " + secret);
         this.secretKey = BASE64.encode(secret);
         this.issuer = issuer;
         this.expirationSec = expirationSec;

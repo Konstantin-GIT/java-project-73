@@ -11,6 +11,7 @@ import hexlet.code.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,11 @@ import java.util.List;
 public class UserController {
 
     public static final String USER_CONTROLLER_PATH = "/users";
+
+    private static final String ONLY_OWNER_BY_ID = """
+            @userRepository.findById(#id).get().getEmail() == authentication.getName()
+        """;
+
 
     @Autowired
     UserRepository userRepository;
@@ -66,6 +72,7 @@ public class UserController {
 
     @PutMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize(ONLY_OWNER_BY_ID)
     public UserDTO update(@PathVariable Long id, @RequestBody UserUpdateDTO userData) {
         var user = userRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("User with id " + id + "not found"));
@@ -76,6 +83,7 @@ public class UserController {
     }
 
     @DeleteMapping(path = "/{id}")
+    @PreAuthorize(ONLY_OWNER_BY_ID)
     public void delete(@PathVariable Long id) {
         userRepository.deleteById(id);
     }
