@@ -11,3 +11,10 @@ logging:
 
 base-url: /api
 
+jwt:
+  issuer: spring_blog
+  expiration-sec: 86400
+  clock-skew-sec: 300
+  secret: secret
+
+rollbar_token: 2323

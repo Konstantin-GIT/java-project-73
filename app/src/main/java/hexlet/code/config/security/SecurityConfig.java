@@ -26,6 +26,7 @@ import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
+import static org.springframework.http.HttpMethod.PUT;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 
@@ -35,7 +36,7 @@ import static org.springframework.http.HttpMethod.POST;
 public class SecurityConfig {
 
     public static final String LOGIN = "/login";
-    public static final List<GrantedAuthority> DEFAULT_AUTHORITIES = List.of(new SimpleGrantedAuthority("USER"));
+    public static final List<GrantedAuthority>  DEFAULT_AUTHORITIES = List.of(new SimpleGrantedAuthority("USER"));
 
     //Note: Сейчас разрешены:
     // - GET('/api/users')

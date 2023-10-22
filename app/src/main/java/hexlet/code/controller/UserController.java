@@ -8,6 +8,7 @@ import hexlet.code.mapper.UserMapper;
 import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
 import hexlet.code.service.UserService;
+import hexlet.code.service.UserServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,7 +44,7 @@ public class UserController {
     private UserMapper userMapper;
 
     @Autowired
-    UserService userService;
+    UserServiceImpl userService;
 
     @GetMapping(path = "/{id}")
     public UserDTO show(@PathVariable Long id) {
@@ -67,19 +68,14 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDTO create(@RequestBody UserCreateDTO userData) {
-        return userService.createUser(userData);
+        return userService.create(userData);
     }
 
     @PutMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize(ONLY_OWNER_BY_ID)
     public UserDTO update(@PathVariable Long id, @RequestBody UserUpdateDTO userData) {
-        var user = userRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("User with id " + id + "not found"));
-        userMapper.update(userData, user);
-        userRepository.save(user);
-        var userDTO = userMapper.map(user);
-        return userDTO;
+    return userService.update(id, userData);
     }
 
     @DeleteMapping(path = "/{id}")

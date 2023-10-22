@@ -7,10 +7,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.GenerationType;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 //import org.springframework.security.core.GrantedAuthority;
@@ -26,31 +23,31 @@ import java.util.Date;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
-@EqualsAndHashCode(of = {"firstname", "lastname", "email"})
+@EqualsAndHashCode(of = {"firstName", "lastName", "email"})
+@AllArgsConstructor
 @Table(name = "users")
 public class User {
 
     public User(String firstname, String lastname, String email) {
-        this.firstname = firstname;
-        this.lastname = lastname;
+        this.firstName = firstname;
+        this.lastName = lastname;
         this.email = email;
     }
 
     public User(String firstname, String lastname, String email, String password) {
-        this.firstname = firstname;
-        this.lastname = lastname;
+        this.firstName = firstname;
+        this.lastName = lastname;
         this.email = email;
         this.password = password;
     }
 
-    private String passwordDigest;
+    //private String passwordDigest;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
     private String email;
-    private UserRole role;
     @JsonIgnore
     private String password;
     @CreatedDate
