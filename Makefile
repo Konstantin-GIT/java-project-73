@@ -1,20 +1,38 @@
-.DEFAULT_GOAL := build-run
+setup:
+	./gradlew wrapper --gradle-version 8.2.1
 
-run-dist:
-	make -C app run-dist
+clean:
+	./gradlew clean
 
 build:
-	make -C app build
+	./gradlew clean build
 
-run:
-	make -C app run
+start:
+	./gradlew bootRun --args='--spring.profiles.active=dev'
+
+start-prod:
+	./gradlew bootRun --args='--spring.profiles.active=prod'
+
+install:
+	./gradlew installDist
+
+lint:
+	./gradlew checkstyleMain checkstyleTest
 
 test:
-	make -C app test
+	./gradlew test
 
 report:
-	make -C app report
+	./gradlew jacocoTestReport
 
-build-run: build run
+check-updates:
+	./gradlew dependencyUpdates
+
+generate-migrations:
+	./gradlew diffChangeLog
+
+db-migrate:
+	./gradlew update
+
 
 .PHONY: build
