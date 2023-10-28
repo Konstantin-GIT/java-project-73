@@ -1,38 +1,31 @@
 package hexlet.code.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 
 @Getter
 @Setter
 @Entity
-@EqualsAndHashCode(of = {"name"})
+@EqualsAndHashCode
 @Table(name = "taskstatuses")
 @NoArgsConstructor
+@AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class TaskStatus {
-
-    public TaskStatus(String name) {
-        this.name = name;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    @Size(min = 1)
+    @NotBlank
+    @Column(unique = true)
+    @Size(min = 1, message = "Название статуса должно быть не менее 1 символа")
     private String name;
     @CreatedDate
     private Date createdAt;

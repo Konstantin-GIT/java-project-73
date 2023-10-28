@@ -71,9 +71,9 @@ public class UserControllerIT {
         final var response = utils.perform(
                 get(USER_CONTROLLER_PATH + ID, expectedUser.getId()),
                 expectedUser.getEmail()
-                ).andExpect(status().isOk())
-                .andReturn()
-                .getResponse();
+            ).andExpect(status().isOk())
+            .andReturn()
+            .getResponse();
 
         final User user = fromJson(response.getContentAsString(), new TypeReference<>() {
         });
@@ -88,9 +88,9 @@ public class UserControllerIT {
     public void getAllUsers() throws Exception {
         utils.regDefaultUser();
         final var response = utils.perform(get(USER_CONTROLLER_PATH))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse();
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse();
 
         final List<User> users = fromJson(response.getContentAsString(), new TypeReference<>() {
         });
@@ -111,8 +111,8 @@ public class UserControllerIT {
     public void login() throws Exception {
         utils.regDefaultUser();
         final LoginDto loginDto = new LoginDto(
-                utils.getTestRegistrationDto().getEmail(),
-                utils.getTestRegistrationDto().getPassword()
+            utils.getTestRegistrationDto().getEmail(),
+            utils.getTestRegistrationDto().getPassword()
         );
         final var loginRequest = post(LOGIN).content(asJson(loginDto)).contentType(APPLICATION_JSON);
         utils.perform(loginRequest).andExpect(status().isOk());
@@ -122,8 +122,8 @@ public class UserControllerIT {
     @Test
     public void loginFail() throws Exception {
         final LoginDto loginDto = new LoginDto(
-                utils.getTestRegistrationDto().getEmail(),
-                utils.getTestRegistrationDto().getPassword()
+            utils.getTestRegistrationDto().getEmail(),
+            utils.getTestRegistrationDto().getPassword()
         );
         final var loginRequest = post(LOGIN).content(asJson(loginDto)).contentType(APPLICATION_JSON);
         utils.perform(loginRequest).andExpect(status().isUnauthorized());
@@ -138,8 +138,8 @@ public class UserControllerIT {
         final var userDto = new UserDto(TEST_USERNAME_2, "new name", "new last name", "new pwd");
 
         final var updateRequest = put(USER_CONTROLLER_PATH + ID, userId)
-                .content(asJson(userDto))
-                .contentType(APPLICATION_JSON);
+            .content(asJson(userDto))
+            .contentType(APPLICATION_JSON);
 
         utils.perform(updateRequest, TEST_USERNAME).andExpect(status().isOk());
 
@@ -155,7 +155,7 @@ public class UserControllerIT {
         final Long userId = userRepository.findByEmail(TEST_USERNAME).get().getId();
 
         utils.perform(delete(USER_CONTROLLER_PATH + ID, userId), TEST_USERNAME)
-                .andExpect(status().isOk());
+            .andExpect(status().isOk());
 
         assertEquals(0, userRepository.count());
     }
@@ -165,16 +165,16 @@ public class UserControllerIT {
     public void deleteUserFails() throws Exception {
         utils.regDefaultUser();
         utils.regUser(new UserDto(
-                TEST_USERNAME_2,
-                "fname",
-                "lname",
-                "pwd"
+            TEST_USERNAME_2,
+            "fname",
+            "lname",
+            "pwd"
         ));
 
         final Long userId = userRepository.findByEmail(TEST_USERNAME).get().getId();
 
         utils.perform(delete(USER_CONTROLLER_PATH + ID, userId), TEST_USERNAME_2)
-                .andExpect(status().isForbidden());
+            .andExpect(status().isForbidden());
 
         assertEquals(2, userRepository.count());
     }

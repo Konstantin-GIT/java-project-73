@@ -3,11 +3,8 @@ package hexlet.code.service;
 import hexlet.code.dto.UserDto;
 import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
-
 import jakarta.transaction.Transactional;
-
 import lombok.AllArgsConstructor;
-
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -70,4 +67,5 @@ public class UserServiceImpl implements UserService {
     public User getCurrentUser() {
         return userRepository.findByEmail(getCurrentUserName()).orElseThrow();
     }
+
 }

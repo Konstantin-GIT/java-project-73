@@ -31,6 +31,7 @@ import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
 
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.PUT;
 
 @Configuration
 @EnableWebSecurity
