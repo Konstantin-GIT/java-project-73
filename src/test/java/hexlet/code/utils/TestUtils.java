@@ -4,9 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.component.JWTHelper;
+import hexlet.code.dto.TaskDto;
 import hexlet.code.dto.UserDto;
 import hexlet.code.dto.taskstatus.TaskStatusDto;
 import hexlet.code.model.User;
+import hexlet.code.repository.TaskRepository;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.UserRepository;
 import java.util.Map;
@@ -16,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import static hexlet.code.controller.TaskController.TASK_CONTROLLER_PATH;
 import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -27,34 +30,36 @@ public class TestUtils {
 
     public static final String TEST_USERNAME = "email@email.com";
     public static final String TEST_USERNAME_2 = "email2@email.com";
-
+    public static final String TEST_TASK_NAME = "TaskName";
+    public static final String TEST_TASK_DESCRIPTION = "TaskDescription";
     public static final String TEST_TASK_STATUS_NAME = "looking for orders";
-
-    private final UserDto testRegistrationDto = new UserDto(
+    public static final UserDto TEST_USER_DTO = new UserDto(
         TEST_USERNAME,
         "fname",
         "lname",
         "pwd"
     );
 
-    public UserDto getTestRegistrationDto() {
-        return testRegistrationDto;
-    }
+    public static final TaskStatusDto TASK_STATUS_DTO = new TaskStatusDto(TEST_TASK_STATUS_NAME);
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private TaskRepository taskRepository;
 
     @Autowired
     private JWTHelper jwtHelper;
     @Autowired
     private TaskStatusRepository taskStatusRepository;
 
+
     public void tearDown() {
-        userRepository.deleteAll();
+        taskRepository.deleteAll();
         taskStatusRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     public User getUserByEmail(final String email) {
@@ -62,7 +67,7 @@ public class TestUtils {
     }
 
     public ResultActions regDefaultUser() throws Exception {
-        return regUser(testRegistrationDto);
+        return regUser(TEST_USER_DTO);
     }
 
     public ResultActions regUser(final UserDto dto) throws Exception {
@@ -96,6 +101,15 @@ public class TestUtils {
 
         return perform(request, TEST_USERNAME);
     }
+
+    public ResultActions createTask(final TaskDto taskDto) throws Exception {
+        final MockHttpServletRequestBuilder request = post(TASK_CONTROLLER_PATH)
+            .content(MAPPER.writeValueAsString(taskDto))
+            .contentType(APPLICATION_JSON);
+
+        return perform(request, TEST_USERNAME);
+    }
+
 
 
     private static final ObjectMapper MAPPER = new ObjectMapper().findAndRegisterModules();

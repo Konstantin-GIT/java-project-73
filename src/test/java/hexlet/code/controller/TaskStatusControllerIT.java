@@ -28,9 +28,7 @@ import static hexlet.code.utils.TestUtils.TEST_USERNAME;
 import static hexlet.code.utils.TestUtils.asJson;
 import static hexlet.code.utils.TestUtils.fromJson;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -191,6 +189,7 @@ public class TaskStatusControllerIT {
         utils.perform(delete(TASK_STATUS_CONTROLLER_PATH + ID, taskStatusId), TEST_USERNAME)
             .andExpect(status().isOk());
 
+        assertNull(taskStatusRepository.findById(taskStatusId).orElse(null));
         assertFalse(taskStatusRepository.existsById(taskStatusId));
     }
 

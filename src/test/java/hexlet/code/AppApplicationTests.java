@@ -21,19 +21,21 @@ public class AppApplicationTests {
         // Проверка, что контекст Spring загружается без ошибок
     }
 
+
+// !! не смог разобраться почему этот тест падает
 //    @Test
 //    public void mainMethodTest() {
 //        // Проверка, что метод main запускается без ошибок
 //        AppApplication.main(new String[]{});
 //    }
-//
-//    @Test
-//    public void testWelcomePage() throws Exception {
-//        var result = mockMvc.perform(get("/welcome"))
-//            .andExpect(status().isOk())
-//            .andReturn();
-//
-//        var body = result.getResponse().getContentAsString();
-//        assertThat(body).contains("Welcome to Spring");
-//    }
+
+    @Test
+    public void testWelcomePage() throws Exception {
+        var result = mockMvc.perform(get("/welcome"))
+            .andExpect(status().isOk())
+            .andReturn();
+
+        var body = result.getResponse().getContentAsString();
+        assertThat(body).contains("Welcome to Spring");
+    }
 }

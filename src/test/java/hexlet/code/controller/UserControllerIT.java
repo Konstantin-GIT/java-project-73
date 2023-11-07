@@ -22,11 +22,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static hexlet.code.config.security.SecurityConfig.LOGIN;
 import static hexlet.code.controller.UserController.ID;
 import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
-import static hexlet.code.utils.TestUtils.TEST_USERNAME;
-import static hexlet.code.utils.TestUtils.TEST_USERNAME_2;
-import static hexlet.code.utils.TestUtils.asJson;
-import static hexlet.code.utils.TestUtils.fromJson;
 import static hexlet.code.config.SpringConfigForIT.TEST_PROFILE;
+import static hexlet.code.utils.TestUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -111,8 +108,8 @@ public class UserControllerIT {
     public void login() throws Exception {
         utils.regDefaultUser();
         final LoginDto loginDto = new LoginDto(
-            utils.getTestRegistrationDto().getEmail(),
-            utils.getTestRegistrationDto().getPassword()
+            TEST_USER_DTO.getEmail(),
+            TEST_USER_DTO.getPassword()
         );
         final var loginRequest = post(LOGIN).content(asJson(loginDto)).contentType(APPLICATION_JSON);
         utils.perform(loginRequest).andExpect(status().isOk());
@@ -122,8 +119,8 @@ public class UserControllerIT {
     @Test
     public void loginFail() throws Exception {
         final LoginDto loginDto = new LoginDto(
-            utils.getTestRegistrationDto().getEmail(),
-            utils.getTestRegistrationDto().getPassword()
+            TEST_USER_DTO.getEmail(),
+            TEST_USER_DTO.getPassword()
         );
         final var loginRequest = post(LOGIN).content(asJson(loginDto)).contentType(APPLICATION_JSON);
         utils.perform(loginRequest).andExpect(status().isUnauthorized());
