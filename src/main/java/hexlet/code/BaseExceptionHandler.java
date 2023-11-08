@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import hexlet.code.exception.ResourceNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
@@ -26,7 +27,7 @@ import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 public class BaseExceptionHandler {
     @ResponseStatus(UNAUTHORIZED)
     @ExceptionHandler(UsernameNotFoundException.class)
-    public String userNitFoundExceptionHandler(UsernameNotFoundException exception) {
+    public String userNotFoundExceptionHandler(UsernameNotFoundException exception) {
         return exception.getMessage();
     }
 
@@ -39,6 +40,12 @@ public class BaseExceptionHandler {
     @ResponseStatus(NOT_FOUND)
     @ExceptionHandler(NoSuchElementException.class)
     public String noSuchElementExceptionHandler(NoSuchElementException exception) {
+        return exception.getMessage();
+    }
+
+    @ResponseStatus(NOT_FOUND)
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public String taskNotFoundExceptionHandler(ResourceNotFoundException exception) {
         return exception.getMessage();
     }
 

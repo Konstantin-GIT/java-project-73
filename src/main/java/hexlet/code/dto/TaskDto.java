@@ -1,7 +1,5 @@
 package hexlet.code.dto;
 
-import hexlet.code.model.TaskStatus;
-import hexlet.code.model.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -18,11 +16,10 @@ public class TaskDto {
 
     private String description;
 
-    //@NotBlank
+    @NotBlank
     private Long taskStatusId;
 
-    //@NotBlank
-    private Long authorId;
+    //private Long authorId;
 
     private Long executorId;
 

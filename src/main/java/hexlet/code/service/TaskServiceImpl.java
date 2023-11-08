@@ -28,6 +28,29 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.save(task);
     }
 
+    @Override
+    public Task update(TaskDto mayBeTaskDto, Task task) {
+        var name = mayBeTaskDto.getName();
+        var description = mayBeTaskDto.getDescription();
+        var taskStatusId = mayBeTaskDto.getTaskStatusId();
+        var executorId = mayBeTaskDto.getExecutorId();
+        if (taskStatusId != null) {
+            var taskStatus = taskStatusService.getTaskStatus(taskStatusId);
+            task.setTaskStatus(taskStatus);
+        }
+        if (name != null) {
+            task.setName(name);
+        }
+        if (executorId != null) {
+            var executor = userService.getUser(executorId);
+            task.setExecutor(executor);
+        }
+        if (description != null) {
+            task.setDescription(description);
+        }
+        return task;
+    }
+
     private Task fromDto(TaskDto taskDto) {
         Task task = new Task();
         var author = userService.getCurrentUser();

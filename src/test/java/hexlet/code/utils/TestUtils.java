@@ -112,7 +112,7 @@ public class TestUtils {
 
 
 
-    private static final ObjectMapper MAPPER = new ObjectMapper().findAndRegisterModules();
+    public static final ObjectMapper MAPPER = new ObjectMapper().findAndRegisterModules();
 
     public static String asJson(final Object object) throws JsonProcessingException {
         return MAPPER.writeValueAsString(object);

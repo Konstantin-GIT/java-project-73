@@ -1,13 +1,8 @@
 package hexlet.code.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,16 +25,17 @@ public class Task {
     private long id;
 
     @NotBlank
+    @Column(unique = true)
     @Size(min = 1, message = "Название задачи должно быть не менее 1 символа")
     private String name;
 
     private String description;
 
-    //@NotBlank
+    @NotNull
     @ManyToOne
     private TaskStatus taskStatus;
 
-    //@NotBlank
+    @NotNull
     @ManyToOne
     private User author;
 
