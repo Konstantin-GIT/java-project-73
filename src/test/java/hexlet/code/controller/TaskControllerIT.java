@@ -3,6 +3,7 @@ package hexlet.code.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import hexlet.code.config.SpringConfigForIT;
 import hexlet.code.dto.TaskDto;
+import hexlet.code.model.Label;
 import hexlet.code.model.Task;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.model.User;
@@ -24,6 +25,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import java.util.List;
+import java.util.Set;
 
 import static hexlet.code.controller.TaskController.TASK_CONTROLLER_PATH;
 import static hexlet.code.utils.TestUtils.MAPPER;
@@ -61,7 +63,7 @@ public class TaskControllerIT {
     public void before() throws Exception {
         utils.regUser(TEST_USER_DTO);
         utils.createTaskStatus(TASK_STATUS_DTO);
-       // utils.createLabel(LABEL_DTO);
+        utils.createLabel(TEST_LABEL_DTO);
     }
 
     @AfterEach
@@ -222,15 +224,15 @@ public class TaskControllerIT {
         final User user = userRepository.findByEmail(TEST_USERNAME).orElseThrow();
         final TaskStatus taskStatus = taskStatusRepository.findByName(TEST_TASK_STATUS_NAME).orElseThrow();
 
-        //final Label label = labelRepository.findByName(TEST_LABEL_NAME).orElseThrow();
+        final Label label = labelRepository.findByName(TEST_LABEL_NAME).orElseThrow();
 
         final TaskDto taskDto = new TaskDto();
         taskDto.setName(TEST_TASK_NAME);
         taskDto.setDescription(TEST_TASK_DESCRIPTION);
         taskDto.setTaskStatusId(taskStatus.getId());
-        //taskDto.setAuthorId(user.getId());
+        taskDto.setAuthorId(user.getId());
         taskDto.setExecutorId(user.getId());
-        //taskDto.setLabelIds(Set.of(label.getId()));
+        taskDto.setLabelIds(Set.of(label.getId()));
 
         return taskDto;
     }
@@ -238,15 +240,15 @@ public class TaskControllerIT {
     private static TaskDto buildTaskDtoForUpdate(Task task) {
         final String updatedTaskName = "updatedTaskName";
         final String updatedTaskDescription = "updatedTaskDescription";
-        //final Label label = task.getLabels().stream().findFirst().orElseThrow();
+        final Label label = task.getLabels().stream().findFirst().orElseThrow();
 
         final TaskDto taskDtoForUpdate = new TaskDto();
         taskDtoForUpdate.setName(updatedTaskName);
         taskDtoForUpdate.setDescription(updatedTaskDescription);
         taskDtoForUpdate.setTaskStatusId(task.getTaskStatus().getId());
-        //taskDtoForUpdate.setAuthorId(task.getAuthor().getId());
+        taskDtoForUpdate.setAuthorId(task.getAuthor().getId());
         taskDtoForUpdate.setExecutorId(task.getExecutor().getId());
-        //taskDtoForUpdate.setLabelIds(Set.of(label.getId()));
+        taskDtoForUpdate.setLabelIds(Set.of(label.getId()));
 
         return taskDtoForUpdate;
     }

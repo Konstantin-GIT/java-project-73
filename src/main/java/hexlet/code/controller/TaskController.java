@@ -22,9 +22,9 @@ public class TaskController {
 
     public static final String TASK_CONTROLLER_PATH = "/tasks";
     public static final String ID = "/{id}";
-    private static final String ONLY_OWNER_BY_ID = """
-            @userRepository.findById(#id).get().getEmail() == authentication.getName()
-        """;
+    private static final String ONLY_AUTHOR_BY_ID = """
+            @taskRepository.findById(#id).get().getAuthor().getEmail() == authentication.getName()
+            """;
     @Autowired
     TaskRepository taskRepository;
     @Autowired
@@ -63,7 +63,7 @@ public class TaskController {
     }
 
     @DeleteMapping(ID)
-    @PreAuthorize(ONLY_OWNER_BY_ID)
+    @PreAuthorize(ONLY_AUTHOR_BY_ID)
     public void delete(@PathVariable Long id) {
         taskRepository.deleteById(id);
     }

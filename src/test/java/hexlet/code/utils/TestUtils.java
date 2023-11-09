@@ -66,9 +66,9 @@ public class TestUtils {
 
 
     public void tearDown() {
-        labelRepository.deleteAll();
         taskRepository.deleteAll();
         taskStatusRepository.deleteAll();
+        labelRepository.deleteAll();
         userRepository.deleteAll();
     }
 

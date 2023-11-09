@@ -22,7 +22,7 @@ public class TaskDto {
     @NotNull
     private Long taskStatusId;
 
-    //private Long authorId;
+    private Long authorId;
 
     private Set<Long> LabelIds;
 
