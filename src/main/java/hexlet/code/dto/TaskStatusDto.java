@@ -1,11 +1,10 @@
-package hexlet.code.dto.taskstatus;
+package hexlet.code.dto;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.*;
-
-import java.util.Date;
-
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 @Data
 @NoArgsConstructor

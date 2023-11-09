@@ -1,6 +1,6 @@
 package hexlet.code.mapper;
 
-import hexlet.code.dto.taskstatus.TaskStatusDto;
+import hexlet.code.dto.TaskStatusDto;
 import hexlet.code.model.TaskStatus;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;

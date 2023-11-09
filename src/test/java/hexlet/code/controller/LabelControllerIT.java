@@ -2,19 +2,13 @@ package hexlet.code.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import hexlet.code.dto.LabelDto;
-import hexlet.code.dto.LoginDto;
-import hexlet.code.dto.UserDto;
 import hexlet.code.model.Label;
-import hexlet.code.model.User;
 import hexlet.code.repository.LabelRepository;
-import hexlet.code.repository.UserRepository;
 import hexlet.code.utils.TestUtils;
 import hexlet.code.config.SpringConfigForIT;
-
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,18 +16,17 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import static hexlet.code.config.security.SecurityConfig.LOGIN;
 import static hexlet.code.controller.LabelController.LABEL_CONTROLLER_PATH;
 import static hexlet.code.controller.UserController.ID;
-import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
 import static hexlet.code.config.SpringConfigForIT.TEST_PROFILE;
-import static hexlet.code.utils.TestUtils.*;
+import static hexlet.code.utils.TestUtils.TEST_USER_DTO;
+import static hexlet.code.utils.TestUtils.fromJson;
+import static hexlet.code.utils.TestUtils.TEST_LABEL_DTO;
+import static hexlet.code.utils.TestUtils.MAPPER;
+import static hexlet.code.utils.TestUtils.TEST_USERNAME;
+import static hexlet.code.utils.TestUtils.TEST_LABEL_NAME;
+import static hexlet.code.utils.TestUtils.TEST_LABEL_NAME_2;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;

@@ -1,14 +1,12 @@
 package hexlet.code.service;
 
-import hexlet.code.dto.taskstatus.TaskStatusDto;
+import hexlet.code.dto.TaskStatusDto;
 import hexlet.code.exception.ResourceNotFoundException;
 import hexlet.code.mapper.TaskStatusMapper;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.repository.TaskStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -42,7 +40,7 @@ public class TaskStatusServiceImpl implements TaskStatusService {
     @Override
     public TaskStatus updateTaskStatus(final long id, final TaskStatusDto taskData) {
         TaskStatus taskStatusMayBe =  taskStatusRepository.findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException("TaskStatus with id " + id + " not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("TaskStatus with id " + id + " not found"));
         taskStatusMayBe.setName(taskData.getName());
         return taskStatusRepository.save(taskStatusMayBe);
     }

@@ -7,7 +7,7 @@ import hexlet.code.component.JWTHelper;
 import hexlet.code.dto.LabelDto;
 import hexlet.code.dto.TaskDto;
 import hexlet.code.dto.UserDto;
-import hexlet.code.dto.taskstatus.TaskStatusDto;
+import hexlet.code.dto.TaskStatusDto;
 import hexlet.code.model.Label;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.model.User;

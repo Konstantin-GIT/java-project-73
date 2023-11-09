@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.Set;
 
 @Data
@@ -24,7 +23,7 @@ public class TaskDto {
 
     private Long authorId;
 
-    private Set<Long> LabelIds;
+    private Set<Long> labelIds;
 
     private Long executorId;
 

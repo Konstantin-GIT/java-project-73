@@ -1,6 +1,6 @@
 package hexlet.code.controller;
 
-import hexlet.code.dto.taskstatus.TaskStatusDto;
+import hexlet.code.dto.TaskStatusDto;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.service.TaskStatusServiceImpl;
 import jakarta.validation.Valid;

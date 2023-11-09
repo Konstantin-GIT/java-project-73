@@ -26,19 +26,27 @@ public class RollbarConfig {
     private String activeProfile;
 
     /**
-     * Register a Rollbar bean to configure App with Rollbar.
+     * Создает и возвращает экземпляр Rollbar с использованием предоставленных конфигураций.
+     *
+     * @return Экземпляр Rollbar.
      */
     @Bean
     public Rollbar rollbar() {
 
-    return new Rollbar(getRollbarConfigs(rollbarToken));
+        return new Rollbar(getRollbarConfigs(rollbarToken));
     }
 
+    /**
+     * Создает и возвращает конфигурации Rollbar с использованием предоставленного токена доступа.
+     *
+     * @param accessToken Токен доступа для настройки Rollbar.
+     * @return Конфигурации Rollbar.
+     */
     private Config getRollbarConfigs(String accessToken) {
 
-    return RollbarSpringConfigBuilder.withAccessToken(accessToken)
-            .environment("development")
-            .enabled(activeProfile == "prod")
-            .build();
+        return RollbarSpringConfigBuilder.withAccessToken(accessToken)
+                .environment("development")
+                .enabled(activeProfile == "prod")
+                .build();
     }
 }
