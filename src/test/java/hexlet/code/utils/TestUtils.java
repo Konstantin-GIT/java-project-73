@@ -4,10 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.component.JWTHelper;
+import hexlet.code.dto.LabelDto;
 import hexlet.code.dto.TaskDto;
 import hexlet.code.dto.UserDto;
 import hexlet.code.dto.taskstatus.TaskStatusDto;
 import hexlet.code.model.User;
+import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.TaskRepository;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.UserRepository;
@@ -18,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import static hexlet.code.controller.LabelController.LABEL_CONTROLLER_PATH;
 import static hexlet.code.controller.TaskController.TASK_CONTROLLER_PATH;
 import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -28,19 +31,22 @@ import static hexlet.code.controller.TaskStatusController.TASK_STATUS_CONTROLLER
 @Component
 public class TestUtils {
 
-    public static final String TEST_USERNAME = "email@email.com";
-    public static final String TEST_USERNAME_2 = "email2@email.com";
+    public static final String TEST_USERNAME = "email_test@gmail.com";
+    public static final String TEST_USERNAME_2 = "email2_test@gmail.com";
     public static final String TEST_TASK_NAME = "TaskName";
     public static final String TEST_TASK_DESCRIPTION = "TaskDescription";
-    public static final String TEST_TASK_STATUS_NAME = "looking for orders";
+    public static final String TEST_TASK_STATUS_NAME = "task status name";
+    public static final String TEST_LABEL_NAME = "labelName1_test";
+    public static final String TEST_LABEL_NAME_2 = "labelName2_test";
     public static final UserDto TEST_USER_DTO = new UserDto(
         TEST_USERNAME,
-        "fname",
-        "lname",
-        "pwd"
+        "test_first_name",
+        "test_last_name",
+        "test_pwd"
     );
 
     public static final TaskStatusDto TASK_STATUS_DTO = new TaskStatusDto(TEST_TASK_STATUS_NAME);
+    public static final LabelDto TEST_LABEL_DTO = new LabelDto(TEST_LABEL_NAME);
 
     @Autowired
     private MockMvc mockMvc;
@@ -55,8 +61,12 @@ public class TestUtils {
     @Autowired
     private TaskStatusRepository taskStatusRepository;
 
+    @Autowired
+    private LabelRepository labelRepository;
+
 
     public void tearDown() {
+        labelRepository.deleteAll();
         taskRepository.deleteAll();
         taskStatusRepository.deleteAll();
         userRepository.deleteAll();
@@ -109,6 +119,15 @@ public class TestUtils {
 
         return perform(request, TEST_USERNAME);
     }
+
+    public ResultActions createLabel(final LabelDto labelDto) throws Exception {
+        final MockHttpServletRequestBuilder request = post(LABEL_CONTROLLER_PATH)
+            .content(MAPPER.writeValueAsString(labelDto))
+            .contentType(APPLICATION_JSON);
+
+        return perform(request, TEST_USERNAME);
+    }
+
 
 
 

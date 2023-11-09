@@ -4,10 +4,16 @@ import hexlet.code.dto.TaskDto;
 import hexlet.code.model.Task;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.model.User;
+import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.TaskRepository;
-import jakarta.validation.constraints.NotBlank;
+import hexlet.code.model.Label;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -16,53 +22,67 @@ public class TaskServiceImpl implements TaskService {
     UserServiceImpl userService;
 
     @Autowired
-    TaskStatusServiceImpl taskStatusService;
+    TaskStatusService taskStatusService;
 
     @Autowired
     TaskRepository taskRepository;
 
+    @Autowired
+    LabelService labelService;
+
+
+    public List<Task> getAllTasks() {
+        return taskRepository.findAll();
+    }
+
     @Override
     public Task create(TaskDto taskDto) {
         var task = fromDto(taskDto);
-
         return taskRepository.save(task);
     }
 
     @Override
-    public Task update(TaskDto mayBeTaskDto, Task task) {
-        var name = mayBeTaskDto.getName();
-        var description = mayBeTaskDto.getDescription();
-        var taskStatusId = mayBeTaskDto.getTaskStatusId();
-        var executorId = mayBeTaskDto.getExecutorId();
-        if (taskStatusId != null) {
-            var taskStatus = taskStatusService.getTaskStatus(taskStatusId);
-            task.setTaskStatus(taskStatus);
-        }
-        if (name != null) {
-            task.setName(name);
-        }
-        if (executorId != null) {
-            var executor = userService.getUser(executorId);
-            task.setExecutor(executor);
-        }
-        if (description != null) {
-            task.setDescription(description);
-        }
-        return task;
+    public Task update(TaskDto mayBeTaskDto, Task taskForUpdate) {
+        final Task newTask = fromDto(mayBeTaskDto);
+
+        taskForUpdate.setName(newTask.getName());
+        taskForUpdate.setDescription(newTask.getDescription());
+        taskForUpdate.setTaskStatus(newTask.getTaskStatus());
+        taskForUpdate.setAuthor(newTask.getAuthor());
+        taskForUpdate.setExecutor(newTask.getExecutor());
+
+        return taskRepository.save(taskForUpdate);
     }
 
+
+
     private Task fromDto(TaskDto taskDto) {
-        Task task = new Task();
-        var author = userService.getCurrentUser();
-        var taskStatus = taskStatusService.getTaskStatus(taskDto.getTaskStatusId());
-        var executor = userService.getUser(taskDto.getExecutorId());
-        task.setName(taskDto.getName());
-        task.setDescription((taskDto.getDescription()));
-        task.setAuthor(author);
-        if (taskDto.getExecutorId() != null) {
-            task.setExecutor(userService.getUser(taskDto.getExecutorId()));
-        }
-        task.setTaskStatus(taskStatus);
-        return task;
+        final User author = userService.getCurrentUser();
+
+        final User executor = Optional.ofNullable(taskDto.getExecutorId())
+            .map(userService::getUserById)
+            .orElse(null);
+
+        final TaskStatus taskStatus = Optional.ofNullable(taskDto.getTaskStatusId())
+            .map(taskStatusService::getTaskStatusById)
+            .orElse(null);
+
+        final Set<Label> labels = Optional.ofNullable(taskDto.getLabelIds())
+            .orElse(Set.of())
+            .stream()
+            .filter(Objects::nonNull)
+            .map(labelService::getLabelById)
+            .collect(Collectors.toSet());
+
+        return Task.builder()
+            .name(taskDto.getName())
+            .description(taskDto.getDescription())
+            .author(author)
+            .executor(executor)
+            .taskStatus(taskStatus)
+            .labels(labels)
+            .build();
     }
+
+
 }

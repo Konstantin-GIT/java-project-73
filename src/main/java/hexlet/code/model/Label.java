@@ -25,17 +25,16 @@ import java.util.Date;
 @Table(name = "labels")
 @NoArgsConstructor
 public class Label {
-
     public Label(String name) {
         this.name = name;
     }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
     @Size(min = 1)
+    @Column(unique = true)
     private String name;
     @CreatedDate
     private Date createdAt;

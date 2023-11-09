@@ -4,19 +4,14 @@ import hexlet.code.dto.UserDto;
 import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
 import hexlet.code.service.UserService;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
 import jakarta.validation.Valid;
-
 import lombok.AllArgsConstructor;
-
 import org.springframework.security.access.prepost.PreAuthorize;
-
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -50,7 +45,7 @@ public class UserController {
     @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = User.class)))
     @GetMapping(ID)
     public User getUser(@PathVariable final Long id) {
-        return userService.getUser(id);
+        return userService.getUserById(id);
     }
 
     @Operation(summary = "Get users")

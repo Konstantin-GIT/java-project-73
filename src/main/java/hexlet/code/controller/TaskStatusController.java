@@ -2,13 +2,10 @@ package hexlet.code.controller;
 
 import hexlet.code.dto.taskstatus.TaskStatusDto;
 import hexlet.code.model.TaskStatus;
-import hexlet.code.repository.UserRepository;
 import hexlet.code.service.TaskStatusServiceImpl;
-import hexlet.code.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +30,7 @@ public class TaskStatusController {
 
     @GetMapping(ID)
     public TaskStatus show(@PathVariable Long id) {
-        return taskStatusService.getTaskStatus(id);
+        return taskStatusService.getTaskStatusById(id);
     }
 
     @GetMapping

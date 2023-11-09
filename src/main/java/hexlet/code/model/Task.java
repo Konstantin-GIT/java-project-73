@@ -1,16 +1,13 @@
 package hexlet.code.model;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.util.Date;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,6 +16,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Table(name = "tasks")
 @EntityListeners(AuditingEntityListener.class)
+@Builder
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +39,9 @@ public class Task {
 
     @ManyToOne
     private User executor;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Label> labels;
 
     @CreatedDate
     private Date createdAt;

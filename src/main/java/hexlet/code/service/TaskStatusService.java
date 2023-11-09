@@ -6,7 +6,7 @@ import hexlet.code.model.TaskStatus;
 import java.util.List;
 
 public interface TaskStatusService {
-        TaskStatus getTaskStatus(long id);
+        TaskStatus getTaskStatusById(long id);
         List<TaskStatus> getTaskStatuses();
         TaskStatus createTaskStatus(TaskStatusDto taskStatusDto);
         TaskStatus updateTaskStatus(long id, TaskStatusDto taskStatusDto);

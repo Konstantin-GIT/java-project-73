@@ -6,6 +6,7 @@ import hexlet.code.dto.TaskDto;
 import hexlet.code.model.Task;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.model.User;
+import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.TaskRepository;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.UserRepository;
@@ -21,6 +22,8 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+
+import java.util.List;
 
 import static hexlet.code.controller.TaskController.TASK_CONTROLLER_PATH;
 import static hexlet.code.utils.TestUtils.MAPPER;
@@ -49,8 +52,8 @@ public class TaskControllerIT {
     @Autowired
     private TaskStatusRepository taskStatusRepository;
 
-    //@Autowired
-    //private LabelRepository labelRepository;
+    @Autowired
+    private LabelRepository labelRepository;
     @Autowired
     private TestUtils utils;
 
@@ -64,6 +67,45 @@ public class TaskControllerIT {
     @AfterEach
     public void clear() {
         utils.tearDown();
+    }
+
+    @Test
+    public void index() throws Exception {
+        utils.createTask(buildTaskDto());
+
+        final MockHttpServletResponse response = utils.perform(
+                get(TASK_CONTROLLER_PATH ),
+                TEST_USERNAME
+            )
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse();
+
+        final List<Task> tasks = fromJson(response.getContentAsString(), new TypeReference<>() { });
+        assertThat(tasks.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void getTaskById() throws Exception {
+        utils.createTask(buildTaskDto());
+
+        final Task expectedTask = taskRepository.findAll().get(0);
+        final MockHttpServletResponse response = utils.perform(
+                get(TASK_CONTROLLER_PATH + "/{id}", expectedTask.getId()),
+                TEST_USERNAME
+            )
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse();
+
+        final Task task = fromJson(response.getContentAsString(), new TypeReference<>() { });
+
+        assertThat(expectedTask.getId()).isEqualTo(task.getId());
+        assertThat(expectedTask.getName()).isEqualTo(task.getName());
+        assertThat(expectedTask.getDescription()).isEqualTo(task.getDescription());
+        assertThat(expectedTask.getTaskStatus().getName()).isEqualTo(task.getTaskStatus().getName());
+        assertThat(expectedTask.getAuthor().getEmail()).isEqualTo(task.getAuthor().getEmail());
+        assertThat(expectedTask.getExecutor().getEmail()).isEqualTo(task.getExecutor().getEmail());
     }
 
     @Test
@@ -98,29 +140,6 @@ public class TaskControllerIT {
         utils.createTask(buildTaskDto()).andExpect(status().isUnprocessableEntity());
 
         assertThat(1).isEqualTo(taskRepository.count());
-    }
-
-    @Test
-    public void getTaskById() throws Exception {
-        utils.createTask(buildTaskDto());
-
-        final Task expectedTask = taskRepository.findAll().get(0);
-        final MockHttpServletResponse response = utils.perform(
-                get(TASK_CONTROLLER_PATH + "/{id}", expectedTask.getId()),
-                TEST_USERNAME
-            )
-            .andExpect(status().isOk())
-            .andReturn()
-            .getResponse();
-
-        final Task task = fromJson(response.getContentAsString(), new TypeReference<>() { });
-
-        assertThat(expectedTask.getId()).isEqualTo(task.getId());
-        assertThat(expectedTask.getName()).isEqualTo(task.getName());
-        assertThat(expectedTask.getDescription()).isEqualTo(task.getDescription());
-        assertThat(expectedTask.getTaskStatus().getName()).isEqualTo(task.getTaskStatus().getName());
-        assertThat(expectedTask.getAuthor().getEmail()).isEqualTo(task.getAuthor().getEmail());
-        assertThat(expectedTask.getExecutor().getEmail()).isEqualTo(task.getExecutor().getEmail());
     }
 
     @Test

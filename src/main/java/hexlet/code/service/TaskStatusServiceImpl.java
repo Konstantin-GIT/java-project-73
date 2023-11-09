@@ -20,7 +20,7 @@ public class TaskStatusServiceImpl implements TaskStatusService {
     TaskStatusRepository taskStatusRepository;
 
     @Override
-    public TaskStatus getTaskStatus(long id) {
+    public TaskStatus getTaskStatusById(long id) {
         return taskStatusRepository.findById(id).orElseThrow();
 
     }

@@ -5,54 +5,54 @@ import hexlet.code.exception.ResourceNotFoundException;
 import hexlet.code.mapper.TaskMapper;
 import hexlet.code.model.Task;
 import hexlet.code.repository.TaskRepository;
-import hexlet.code.service.TaskServiceImpl;
+import hexlet.code.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.NonTransientDataAccessException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-
 import static hexlet.code.controller.TaskController.TASK_CONTROLLER_PATH;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
-
+import java.util.List;
 @RestController
 @RequestMapping("${base-url}" + TASK_CONTROLLER_PATH)
 @AllArgsConstructor
 public class TaskController {
 
     public static final String TASK_CONTROLLER_PATH = "/tasks";
-
+    public static final String ID = "/{id}";
     private static final String ONLY_OWNER_BY_ID = """
             @userRepository.findById(#id).get().getEmail() == authentication.getName()
         """;
-
     @Autowired
     TaskRepository taskRepository;
     @Autowired
     TaskMapper taskMapper;
-
     @Autowired
-    TaskServiceImpl taskService;
+    TaskService taskService;
 
-    @GetMapping(path = "/{id}")
+    @GetMapping(ID)
     @ResponseStatus(OK)
     public Task show(@PathVariable Long id) {
         var task = taskRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Task with id " + id + " not found"));
-
         return task;
     }
 
+    @GetMapping
+    @ResponseStatus(OK)
+    public List<Task> index() {
+        return taskService.getAllTasks();
+    }
 
-    @PutMapping(path = "/{id}")
+    @PostMapping
+    @ResponseStatus(CREATED)
+    public Task create(@RequestBody @Valid TaskDto taskDto) {
+        return taskService.create(taskDto);
+    }
+
+    @PutMapping(ID)
     @ResponseStatus(OK)
     public Task update(@PathVariable Long id, @RequestBody  @Valid TaskDto mayBeTaskDto) {
         var task = taskRepository.findById(id)
@@ -62,19 +62,9 @@ public class TaskController {
         return updatedTask;
     }
 
-    @PostMapping
-    @ResponseStatus(CREATED)
-    public Task create(@RequestBody TaskDto taskDto) {
-
-        return taskService.create(taskDto);
-
-    }
-
-
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(ID)
     @PreAuthorize(ONLY_OWNER_BY_ID)
     public void delete(@PathVariable Long id) {
         taskRepository.deleteById(id);
     }
-
 }
