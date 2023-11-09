@@ -8,12 +8,16 @@ import hexlet.code.dto.LabelDto;
 import hexlet.code.dto.TaskDto;
 import hexlet.code.dto.UserDto;
 import hexlet.code.dto.taskstatus.TaskStatusDto;
+import hexlet.code.model.Label;
+import hexlet.code.model.TaskStatus;
 import hexlet.code.model.User;
 import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.TaskRepository;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.UserRepository;
 import java.util.Map;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
@@ -102,6 +106,28 @@ public class TestUtils {
     private final TaskStatusDto testDtoForTaskStatus = new TaskStatusDto(TEST_TASK_STATUS_NAME);
     public ResultActions createDefaultTaskStatus() throws Exception {
         return createTaskStatus(testDtoForTaskStatus);
+    }
+
+    public ResultActions createDefaultTask() throws Exception {
+        return createTask(buildDefaultTaskDto());
+    }
+
+    private TaskDto buildDefaultTaskDto() {
+        final User user = userRepository.findByEmail(TEST_USERNAME).get();
+
+        final TaskStatus taskStatus = taskStatusRepository.findByName(TEST_TASK_STATUS_NAME).get();
+
+        final Label label = labelRepository.findByName(TEST_LABEL_NAME).get();
+
+        final TaskDto taskDto = new TaskDto();
+        taskDto.setName(TEST_TASK_NAME);
+        taskDto.setDescription(TEST_TASK_DESCRIPTION);
+        taskDto.setTaskStatusId(taskStatus.getId());
+        taskDto.setAuthorId(user.getId());
+        taskDto.setExecutorId(user.getId());
+        taskDto.setLabelIds(Set.of(label.getId()));
+
+        return taskDto;
     }
 
     public ResultActions createTaskStatus(final TaskStatusDto taskStatusDto) throws Exception {

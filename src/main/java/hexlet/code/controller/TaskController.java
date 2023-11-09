@@ -15,6 +15,8 @@ import static hexlet.code.controller.TaskController.TASK_CONTROLLER_PATH;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 import java.util.List;
+import com.querydsl.core.types.Predicate;
+
 @RestController
 @RequestMapping("${base-url}" + TASK_CONTROLLER_PATH)
 @AllArgsConstructor
@@ -42,8 +44,8 @@ public class TaskController {
 
     @GetMapping
     @ResponseStatus(OK)
-    public List<Task> index() {
-        return taskService.getAllTasks();
+    public List<Task> index(Predicate predicate) {
+        return taskService.getAllTasks(predicate);
     }
 
     @PostMapping

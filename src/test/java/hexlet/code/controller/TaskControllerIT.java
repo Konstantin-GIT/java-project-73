@@ -32,6 +32,7 @@ import static hexlet.code.utils.TestUtils.MAPPER;
 import static hexlet.code.config.SpringConfigForIT.TEST_PROFILE;
 import static hexlet.code.utils.TestUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -85,6 +86,68 @@ public class TaskControllerIT {
 
         final List<Task> tasks = fromJson(response.getContentAsString(), new TypeReference<>() { });
         assertThat(tasks.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void getSortedAllTasks() throws Exception {
+        utils.createDefaultTask();
+
+        final Task expectedTask = taskRepository.findByName(TEST_TASK_NAME).orElseThrow();
+        final Long expectedLabelId = expectedTask.getLabels().stream().findFirst().orElseThrow().getId();
+
+        final String queryString = String.format("?taskStatus=%d&executorId=%d&authorId=%d&labelsId=%d",
+            expectedTask.getTaskStatus().getId(),
+            expectedTask.getExecutor().getId(),
+            expectedTask.getAuthor().getId(),
+            expectedLabelId);
+
+        final MockHttpServletResponse response = utils.perform(
+                get(TASK_CONTROLLER_PATH + queryString),
+                TEST_USERNAME
+            )
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse();
+
+        final List<Task> tasks = fromJson(response.getContentAsString(), new TypeReference<>() { });
+
+        final Task currentTask = tasks.get(0);
+        final Long currentLabelId = currentTask.getLabels().stream().findFirst().orElseThrow().getId();
+
+        assertThat(tasks).hasSize(1);
+        assertEquals(expectedTask.getName(), currentTask.getName());
+        assertEquals(expectedTask.getTaskStatus().getName(), currentTask.getTaskStatus().getName());
+        assertEquals(expectedTask.getExecutor().getEmail(), currentTask.getExecutor().getEmail());
+        assertEquals(expectedTask.getAuthor().getFirstName(), currentTask.getAuthor().getFirstName());
+        assertEquals(expectedLabelId, currentLabelId);
+    }
+
+    @Test
+    public void getSortedAllTasksFail() throws Exception {
+        utils.createDefaultTask();
+
+        final Task expectedTask = taskRepository.findByName(TEST_TASK_NAME).orElseThrow();
+        final Long expectedLabelId = expectedTask.getLabels().stream().findFirst().orElseThrow().getId();
+
+        final Long wrongAthorId = expectedTask.getAuthor().getId() + 1;
+
+        final String queryString = String.format("?taskStatus=%d&executorId=%d&authorId=%d&labelsId=%d",
+            expectedTask.getTaskStatus().getId(),
+            expectedTask.getExecutor().getId(),
+            wrongAthorId,
+            expectedLabelId);
+
+        final MockHttpServletResponse response = utils.perform(
+                get(TASK_CONTROLLER_PATH + queryString),
+                TEST_USERNAME
+            )
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse();
+
+        final List<Task> tasks = fromJson(response.getContentAsString(), new TypeReference<>() { });
+
+        assertThat(tasks).hasSize(0);
     }
 
     @Test

@@ -1,5 +1,6 @@
 package hexlet.code.service;
 
+import com.querydsl.core.types.Predicate;
 import hexlet.code.dto.TaskDto;
 import hexlet.code.model.Task;
 import hexlet.code.model.TaskStatus;
@@ -31,8 +32,8 @@ public class TaskServiceImpl implements TaskService {
     LabelService labelService;
 
 
-    public List<Task> getAllTasks() {
-        return taskRepository.findAll();
+    public List<Task> getAllTasks(Predicate predicate) {
+        return (List<Task>) taskRepository.findAll(predicate);
     }
 
     @Override
