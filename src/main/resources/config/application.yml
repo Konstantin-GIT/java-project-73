@@ -4,8 +4,12 @@ server:
 base-url: /api
 
 spring:
+  profiles:
+    active:  dev
+
   application:
     name: taskManager
+
 
   liquibase:
 #    enabled: true
@@ -19,3 +23,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+
+# swagger-ui custom path (optional parameter by default http://server:port/swagger-ui.html)
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+rollbar_token: b92e633b71d745e7b3338f482f6c4e6d
+
+

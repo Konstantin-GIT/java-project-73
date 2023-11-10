@@ -7,13 +7,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 
 @Configuration
 @ComponentScan({
 
 // UPDATE TO YOUR PROJECT PACKAGE
-    "io.hexlet.javaspringblog"
+    "hexlet.code",
+    "com.rollbar.spring"
 
 })
 public class RollbarConfig {
@@ -46,7 +48,7 @@ public class RollbarConfig {
 
         return RollbarSpringConfigBuilder.withAccessToken(accessToken)
                 .environment("development")
-                .enabled(activeProfile == "prod")
+                .enabled(activeProfile.equals("dev"))
                 .build();
     }
 }

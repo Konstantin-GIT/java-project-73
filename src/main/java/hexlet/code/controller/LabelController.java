@@ -7,6 +7,11 @@ import hexlet.code.repository.LabelRepository;
 import hexlet.code.service.LabelService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +42,13 @@ public class LabelController {
     @Autowired
     LabelService labelService;
 
+    @Operation(summary = "Get label by id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Label found",
+            content = @Content(schema = @Schema(implementation = Label.class))),
+        @ApiResponse(responseCode = "404", description = "Label not found",
+            content = @Content(schema = @Schema(implementation = Label.class)))
+    })
     @GetMapping(ID)
     @ResponseStatus(OK)
     public Label show(@PathVariable Long id) {
@@ -45,18 +57,44 @@ public class LabelController {
         return task;
     }
 
+
+    @Operation(summary = "Get all labels")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Labels found",
+            content = @Content(schema = @Schema(implementation = Label.class))),
+        @ApiResponse(responseCode = "404", description = "Labels not found",
+            content = @Content(schema = @Schema(implementation = Label.class)))
+    })
     @GetMapping
     @ResponseStatus(OK)
     public List<Label> index() {
         return labelRepository.findAll();
     }
 
+
+    @Operation(summary = "Create a new label")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Label created",
+            content = @Content(schema = @Schema(implementation = Label.class))),
+        @ApiResponse(responseCode = "422", description = "Cannot create label with this data",
+            content = @Content(schema = @Schema(implementation = Label.class)))
+    })
     @PostMapping
     @ResponseStatus(CREATED)
     public Label create(@RequestBody @Valid LabelDto labelDto) {
         return labelService.create(labelDto);
     }
 
+
+    @Operation(summary = "Update label by id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Label updated",
+            content = @Content(schema = @Schema(implementation = Label.class))),
+        @ApiResponse(responseCode = "422", description = "Cannot update label with this data",
+            content = @Content(schema = @Schema(implementation = Label.class))),
+        @ApiResponse(responseCode = "404", description = "Label not found",
+            content = @Content(schema = @Schema(implementation = Label.class)))
+    })
     @PutMapping(ID)
     @ResponseStatus(OK)
     public Label update(@PathVariable Long id, @RequestBody @Valid LabelDto mayBeLabelDto) {
@@ -67,6 +105,14 @@ public class LabelController {
         return labelUpdated;
     }
 
+    
+    @Operation(summary = "Delete label by id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Label deleted",
+            content = @Content(schema = @Schema(implementation = Label.class))),
+        @ApiResponse(responseCode = "404", description = "Label not found",
+            content = @Content(schema = @Schema(implementation = Label.class)))
+    })
     @DeleteMapping(ID)
     @ResponseStatus(OK)
     public void delete(@PathVariable Long id) {

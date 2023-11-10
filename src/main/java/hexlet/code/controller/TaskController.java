@@ -10,6 +10,11 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -42,6 +47,13 @@ public class TaskController {
     @Autowired
     TaskService taskService;
 
+    @Operation(summary = "Get task by id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Task found",
+            content = @Content(schema = @Schema(implementation = Task.class))),
+        @ApiResponse(responseCode = "404", description = "Task not found",
+            content = @Content(schema = @Schema(implementation = Task.class)))
+    })
     @GetMapping(ID)
     @ResponseStatus(OK)
     public Task show(@PathVariable Long id) {
@@ -50,18 +62,44 @@ public class TaskController {
         return task;
     }
 
+
+    @Operation(summary = "Get all tasks")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Tasks found",
+            content = @Content(schema = @Schema(implementation = Task.class))),
+        @ApiResponse(responseCode = "404", description = "Tasks not found",
+            content = @Content(schema = @Schema(implementation = Task.class)))
+    })
     @GetMapping
     @ResponseStatus(OK)
     public List<Task> index(Predicate predicate) {
         return taskService.getAllTasks(predicate);
     }
 
+
+    @Operation(summary = "Create a new task")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Task created",
+            content = @Content(schema = @Schema(implementation = Task.class))),
+        @ApiResponse(responseCode = "422", description = "Cannot create task with this data",
+            content = @Content(schema = @Schema(implementation = Task.class)))
+    })
     @PostMapping
     @ResponseStatus(CREATED)
     public Task create(@RequestBody @Valid TaskDto taskDto) {
         return taskService.create(taskDto);
     }
 
+
+    @Operation(summary = "Update task by id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Task updated",
+            content = @Content(schema = @Schema(implementation = Task.class))),
+        @ApiResponse(responseCode = "422", description = "Cannot update task with this data",
+            content = @Content(schema = @Schema(implementation = Task.class))),
+        @ApiResponse(responseCode = "404", description = "Task not found",
+            content = @Content(schema = @Schema(implementation = Task.class)))
+    })
     @PutMapping(ID)
     @ResponseStatus(OK)
     public Task update(@PathVariable Long id, @RequestBody  @Valid TaskDto mayBeTaskDto) {
@@ -72,6 +110,14 @@ public class TaskController {
         return updatedTask;
     }
 
+
+    @Operation(summary = "Delete task by id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Task deleted",
+            content = @Content(schema = @Schema(implementation = Task.class))),
+        @ApiResponse(responseCode = "404", description = "Task not found",
+            content = @Content(schema = @Schema(implementation = Task.class)))
+    })
     @DeleteMapping(ID)
     @PreAuthorize(ONLY_AUTHOR_BY_ID)
     public void delete(@PathVariable Long id) {

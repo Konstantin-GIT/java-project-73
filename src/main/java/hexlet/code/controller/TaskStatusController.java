@@ -6,6 +6,11 @@ import hexlet.code.service.TaskStatusServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,30 +33,65 @@ public class TaskStatusController {
     @Autowired
     TaskStatusServiceImpl taskStatusService;
 
+    @Operation(summary = "Get task status by id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Task status found",
+            content = @Content(schema = @Schema(implementation = TaskStatus.class))),
+        @ApiResponse(responseCode = "404", description = "Task status not found",
+            content = @Content(schema = @Schema(implementation = TaskStatus.class)))
+    })
     @GetMapping(ID)
     public TaskStatus show(@PathVariable Long id) {
         return taskStatusService.getTaskStatusById(id);
     }
 
+    @Operation(summary = "Get all task statuses")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Task statuses found",
+            content = @Content(schema = @Schema(implementation = TaskStatus.class))),
+        @ApiResponse(responseCode = "404", description = "Task statuses not found",
+            content = @Content(schema = @Schema(implementation = TaskStatus.class)))
+    })
     @GetMapping
     public List<TaskStatus> index() {
         return taskStatusService.getTaskStatuses();
     }
 
-
+    @Operation(summary = "Create a new task status")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Task status created",
+            content = @Content(schema = @Schema(implementation = TaskStatus.class))),
+        @ApiResponse(responseCode = "422", description = "Cannot create task status with this data",
+            content = @Content(schema = @Schema(implementation = TaskStatus.class)))
+    })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public TaskStatus createNew(@RequestBody  @Valid final TaskStatusDto taskStatusDto) {
         return taskStatusService.createTaskStatus(taskStatusDto);
     }
 
-
+    @Operation(summary = "Update task status by id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Task status updated",
+            content = @Content(schema = @Schema(implementation = TaskStatus.class))),
+        @ApiResponse(responseCode = "422", description = "Cannot update task status with this data",
+            content = @Content(schema = @Schema(implementation = TaskStatus.class))),
+        @ApiResponse(responseCode = "404", description = "Task status not found",
+            content = @Content(schema = @Schema(implementation = TaskStatus.class)))
+    })
     @PutMapping(ID)
     @ResponseStatus(HttpStatus.OK)
     public TaskStatus update(@PathVariable Long id, @RequestBody @Valid TaskStatusDto taskStatusData) {
         return taskStatusService.updateTaskStatus(id, taskStatusData);
     }
 
+    @Operation(summary = "Delete task status by id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Task status deleted",
+            content = @Content(schema = @Schema(implementation = TaskStatus.class))),
+        @ApiResponse(responseCode = "404", description = "Task status not found",
+            content = @Content(schema = @Schema(implementation = TaskStatus.class)))
+    })
     @DeleteMapping(ID)
     public void delete(@PathVariable Long id) {
         taskStatusService.deleteTaskStatus(id);
