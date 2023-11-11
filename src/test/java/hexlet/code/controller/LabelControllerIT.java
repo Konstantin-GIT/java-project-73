@@ -4,9 +4,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import hexlet.code.dto.LabelDto;
 import hexlet.code.model.Label;
 import hexlet.code.repository.LabelRepository;
-import hexlet.code.utils.TestUtils;
 import hexlet.code.config.SpringConfigForIT;
 import java.util.List;
+
+import hexlet.code.utils.TestUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

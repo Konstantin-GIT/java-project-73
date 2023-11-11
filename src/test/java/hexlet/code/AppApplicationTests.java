@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,10 +12,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+// Чтобы исключить влияние тестов друг на друга, каждый тест будет выполняться в транзакции.
+// После завершения теста транзакция автоматически откатывается
+@Transactional
 public class AppApplicationTests {
 
+
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Test
     public void contextLoads() {
@@ -37,5 +42,10 @@ public class AppApplicationTests {
 
         var body = result.getResponse().getContentAsString();
         assertThat(body).contains("Welcome to Spring");
+    }
+
+    @Test
+    void testInit() {
+        assertThat(true).isTrue();
     }
 }

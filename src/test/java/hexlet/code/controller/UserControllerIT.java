@@ -5,9 +5,10 @@ import hexlet.code.dto.LoginDto;
 import hexlet.code.dto.UserDto;
 import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
-import hexlet.code.utils.TestUtils;
 import hexlet.code.config.SpringConfigForIT;
 import java.util.List;
+
+import hexlet.code.utils.TestUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
+
 import static hexlet.code.config.security.SecurityConfig.LOGIN;
 import static hexlet.code.controller.UserController.ID;
 import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
@@ -44,6 +47,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT, classes = SpringConfigForIT.class)
 public class UserControllerIT {
+
+    @Autowired
+    private MockMvc mockMvc;
 
     @Autowired
     private UserRepository userRepository;

@@ -19,11 +19,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-
 import static hexlet.code.controller.LabelController.LABEL_CONTROLLER_PATH;
 import static hexlet.code.controller.TaskController.TASK_CONTROLLER_PATH;
 import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
@@ -32,6 +33,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static hexlet.code.controller.TaskStatusController.TASK_STATUS_CONTROLLER_PATH;
 
+
+//@WebMvcTest
 @Component
 public class TestUtils {
 
