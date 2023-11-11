@@ -105,7 +105,6 @@ public class LabelController {
         return labelUpdated;
     }
 
-    
     @Operation(summary = "Delete label by id")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Label deleted",
