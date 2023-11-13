@@ -4,14 +4,13 @@ spring:
   application:
     name: taskManager
 
-#  jpa:
-#    show-sql: true
-
-#    hibernate:
-#      ddl-auto: create-drop
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: create-drop
 
   liquibase:
-    enabled: true
+    enabled: false
     change-log: classpath:db/changelog/db.changelog-master.yaml
 
   mvc:

@@ -12,7 +12,7 @@ spring:
 
 
   liquibase:
-#    enabled: true
+    enabled: false
     change-log: classpath:db/changelog/db.changelog-master.yaml
 
   mvc:
@@ -21,6 +21,7 @@ spring:
         enabled: true
 
   jpa:
+    show-sql: false
     hibernate:
       ddl-auto: create-drop
 
