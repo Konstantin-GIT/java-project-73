@@ -31,7 +31,7 @@ public class TaskStatusController {
     public static final String ID = "/{id}";
 
     @Autowired
-    TaskStatusServiceImpl taskStatusService;
+    private TaskStatusServiceImpl taskStatusService;
 
     @Operation(summary = "Get task status by id")
     @ApiResponses(value = {

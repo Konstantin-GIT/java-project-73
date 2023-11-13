@@ -19,16 +19,16 @@ import java.util.stream.Collectors;
 public class TaskServiceImpl implements TaskService {
 
     @Autowired
-    UserServiceImpl userService;
+    private UserServiceImpl userService;
 
     @Autowired
-    TaskStatusService taskStatusService;
+    private TaskStatusService taskStatusService;
 
     @Autowired
-    TaskRepository taskRepository;
+    private TaskRepository taskRepository;
 
     @Autowired
-    LabelService labelService;
+    private LabelService labelService;
 
 
     public List<Task> getAllTasks(Predicate predicate) {

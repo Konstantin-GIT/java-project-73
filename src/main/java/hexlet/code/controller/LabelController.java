@@ -37,10 +37,10 @@ public class LabelController {
     public static final  String ID = "/{id}";
 
     @Autowired
-    LabelRepository labelRepository;
+    private LabelRepository labelRepository;
 
     @Autowired
-    LabelService labelService;
+    private LabelService labelService;
 
     @Operation(summary = "Get label by id")
     @ApiResponses(value = {

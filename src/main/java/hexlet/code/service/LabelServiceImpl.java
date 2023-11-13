@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class LabelServiceImpl implements LabelService {
     @Autowired
-    LabelRepository labelRepository;
+    private LabelRepository labelRepository;
 
     public Label create(LabelDto labelDto) {
         Label label = new Label();

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "")
 public class WelcomeController {
     @Autowired
-    Rollbar rollbar;
+    private Rollbar rollbar;
     @GetMapping(path = "/welcome")
     public String getGreeting() {
         rollbar.debug("Here is some debug message");

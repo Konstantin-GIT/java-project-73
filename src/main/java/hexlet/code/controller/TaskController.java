@@ -41,11 +41,11 @@ public class TaskController {
             @taskRepository.findById(#id).get().getAuthor().getEmail() == authentication.getName()
             """;
     @Autowired
-    TaskRepository taskRepository;
+    private TaskRepository taskRepository;
     @Autowired
-    TaskMapper taskMapper;
+    private TaskMapper taskMapper;
     @Autowired
-    TaskService taskService;
+    private TaskService taskService;
 
     @Operation(summary = "Get task by id")
     @ApiResponses(value = {
