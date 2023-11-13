@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@PropertySource(value = "classpath:/config/application.yml")
+//@PropertySource(value = "classpath:/config/application.yml")
 // Чтобы исключить влияние тестов друг на друга, каждый тест будет выполняться в транзакции.
 // После завершения теста транзакция автоматически откатывается
 @Transactional

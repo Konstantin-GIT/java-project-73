@@ -43,7 +43,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 @ActiveProfiles(TEST_PROFILE)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT, classes = SpringConfigForIT.class)
-@PropertySource(value = "classpath:/config/application.yml")
+//@PropertySource(value = "classpath:/config/application.yml")
 public class LabelControllerIT {
     @Autowired
     private LabelRepository labelRepository;
