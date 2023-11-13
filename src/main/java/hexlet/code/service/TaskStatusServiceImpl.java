@@ -13,9 +13,9 @@ import java.util.List;
 public class TaskStatusServiceImpl implements TaskStatusService {
 
     @Autowired
-    TaskStatusMapper taskStatusMapper;
+    private TaskStatusMapper taskStatusMapper;
     @Autowired
-    TaskStatusRepository taskStatusRepository;
+    private TaskStatusRepository taskStatusRepository;
 
     @Override
     public TaskStatus getTaskStatusById(long id) {
