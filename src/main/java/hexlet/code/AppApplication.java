@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
 @EnableJpaAuditing
+@PropertySource(value = "classpath:/config/application.yml")
 // Добавляем поддержку авторизации через токен в свагер
 @SecurityScheme(name = "javainuseapi", scheme = "bearer", type = SecuritySchemeType.HTTP, in = SecuritySchemeIn.HEADER)
 public class AppApplication {

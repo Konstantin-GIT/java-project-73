@@ -12,10 +12,10 @@ spring:
   datasource:
     url: ${JDBC_DATABASE_URL}
 
-  jpa:
-    show-sql: false
-    hibernate:
-      ddl-auto: create-drop
+#  jpa:
+#    show-sql: false
+#    hibernate:
+#      ddl-auto: create-drop
 
 logging:
   level:
