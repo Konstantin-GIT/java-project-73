@@ -1,4 +1,4 @@
-package hexlet.code;
+package hexlet.code.utils;
 
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
