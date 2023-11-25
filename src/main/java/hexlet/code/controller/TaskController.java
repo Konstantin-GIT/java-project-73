@@ -2,13 +2,11 @@ package hexlet.code.controller;
 
 import hexlet.code.dto.TaskDto;
 import hexlet.code.exception.ResourceNotFoundException;
-import hexlet.code.mapper.TaskMapper;
 import hexlet.code.model.Task;
 import hexlet.code.repository.TaskRepository;
 import hexlet.code.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -40,12 +38,9 @@ public class TaskController {
     private static final String ONLY_AUTHOR_BY_ID = """
             @taskRepository.findById(#id).get().getAuthor().getEmail() == authentication.getName()
             """;
-    @Autowired
-    private TaskRepository taskRepository;
-    @Autowired
-    private TaskMapper taskMapper;
-    @Autowired
-    private TaskService taskService;
+
+    private final TaskRepository taskRepository;
+    private final TaskService taskService;
 
     @Operation(summary = "Get task by id")
     @ApiResponses(value = {

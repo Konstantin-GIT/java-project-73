@@ -11,8 +11,8 @@ app.trace.db
 node
 frontend/build
 frontend/node_modules
-main/taskManager.mv.db
-main/taskManager.trace.db
+taskManager.mv.db
+taskManager.trace.db
 
 ### STS ###
 .apt_generated

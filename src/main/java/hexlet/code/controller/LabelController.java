@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -22,9 +21,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import java.util.List;
-
 import static hexlet.code.controller.LabelController.LABEL_CONTROLLER_PATH;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
@@ -35,12 +32,9 @@ import static org.springframework.http.HttpStatus.OK;
 public class LabelController {
     public static final  String LABEL_CONTROLLER_PATH = "/labels";
     public static final  String ID = "/{id}";
+    private final LabelRepository labelRepository;
+    private final LabelService labelService;
 
-    @Autowired
-    private LabelRepository labelRepository;
-
-    @Autowired
-    private LabelService labelService;
 
     @Operation(summary = "Get label by id")
     @ApiResponses(value = {
@@ -52,9 +46,9 @@ public class LabelController {
     @GetMapping(ID)
     @ResponseStatus(OK)
     public Label show(@PathVariable Long id) {
-        var task = labelRepository.findById(id)
+        var label = labelRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Label with id " + id + " not found"));
-        return task;
+        return label;
     }
 
 
@@ -97,10 +91,10 @@ public class LabelController {
     })
     @PutMapping(ID)
     @ResponseStatus(OK)
-    public Label update(@PathVariable Long id, @RequestBody @Valid LabelDto mayBeLabelDto) {
+    public Label update(@PathVariable Long id, @RequestBody @Valid LabelDto labelDTO) {
         var label = labelRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Label with id " + id + " not found"));
-        var labelUpdated = labelService.update(mayBeLabelDto, label);
+        var labelUpdated = labelService.update(labelDTO, label);
         labelRepository.save(labelUpdated);
         return labelUpdated;
     }

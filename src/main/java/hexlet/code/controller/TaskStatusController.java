@@ -4,7 +4,7 @@ import hexlet.code.dto.TaskStatusDto;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.service.TaskStatusServiceImpl;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -25,13 +25,13 @@ import static hexlet.code.controller.TaskStatusController.TASK_STATUS_CONTROLLER
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("${base-url}" + TASK_STATUS_CONTROLLER_PATH)
 public class TaskStatusController {
     public static final String TASK_STATUS_CONTROLLER_PATH = "/statuses";
     public static final String ID = "/{id}";
 
-    @Autowired
-    private TaskStatusServiceImpl taskStatusService;
+    private final TaskStatusServiceImpl taskStatusService;
 
     @Operation(summary = "Get task status by id")
     @ApiResponses(value = {
