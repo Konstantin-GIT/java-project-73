@@ -11,6 +11,8 @@ app.trace.db
 node
 frontend/build
 frontend/node_modules
+main/taskManager.mv.db
+main/taskManager.trace.db
 
 ### STS ###
 .apt_generated
@@ -30,6 +32,7 @@ bin/
 *.iml
 *.ipr
 out/
+docker-compose.yml
 !**/src/main/**/out/
 !**/src/test/**/out/
 
