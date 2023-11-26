@@ -58,7 +58,7 @@ public class UserControllerIT {
     private TestUtils utils;
 
     @Autowired
-    public PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @AfterEach
     public void clear() {
