@@ -14,7 +14,7 @@ public class WelcomeController {
     private final Rollbar rollbar;
     @GetMapping(path = "/welcome")
     public String getGreeting() {
-        rollbar.debug("Here is some debug message");
+        //rollbar.debug("Here is some debug message");
         return "Welcome to Spring";
     }
 }

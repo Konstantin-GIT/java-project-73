@@ -19,14 +19,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-
 import java.util.List;
 import java.util.Set;
-
 import static hexlet.code.controller.TaskController.TASK_CONTROLLER_PATH;
 import static hexlet.code.utils.TestUtils.MAPPER;
 import static hexlet.code.config.SpringConfigForIT.TEST_PROFILE;
@@ -55,7 +54,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles(TEST_PROFILE)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT, classes = SpringConfigForIT.class)
-//@PropertySource(value = "classpath:/config/application.yml")
+@PropertySource(value = "classpath:/config/application.yml")
 public class TaskControllerIT {
 
     @Autowired

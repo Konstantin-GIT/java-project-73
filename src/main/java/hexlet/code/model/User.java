@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import jakarta.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
@@ -20,6 +21,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode(of = {"id", "email", "firstName", "lastName"})
 @AllArgsConstructor
 public class User {
 

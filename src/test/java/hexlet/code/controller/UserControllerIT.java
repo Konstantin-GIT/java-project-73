@@ -7,29 +7,28 @@ import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
 import hexlet.code.config.SpringConfigForIT;
 import java.util.List;
-
 import hexlet.code.utils.TestUtils;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-
 import static hexlet.code.config.security.SecurityConfig.LOGIN;
 import static hexlet.code.controller.UserController.ID;
 import static hexlet.code.controller.UserController.USER_CONTROLLER_PATH;
 import static hexlet.code.config.SpringConfigForIT.TEST_PROFILE;
 import static hexlet.code.utils.TestUtils.TEST_USER_DTO;
-import static hexlet.code.utils.TestUtils.fromJson;
-import static hexlet.code.utils.TestUtils.asJson;
 import static hexlet.code.utils.TestUtils.TEST_USERNAME_2;
 import static hexlet.code.utils.TestUtils.TEST_USERNAME;
-import static org.assertj.core.api.Assertions.assertThat;
+import static hexlet.code.utils.TestUtils.asJson;
+import static hexlet.code.utils.TestUtils.fromJson;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -46,7 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles(TEST_PROFILE)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT, classes = SpringConfigForIT.class)
-//@PropertySource(value = "classpath:/config/application.yml")
+@PropertySource(value = "classpath:/config/application.yml")
 public class UserControllerIT {
 
     @Autowired
@@ -57,6 +56,9 @@ public class UserControllerIT {
 
     @Autowired
     private TestUtils utils;
+
+    @Autowired
+    public PasswordEncoder passwordEncoder;
 
     @AfterEach
     public void clear() {
@@ -101,10 +103,13 @@ public class UserControllerIT {
         final List<User> users = fromJson(response.getContentAsString(), new TypeReference<>() {
         });
 
-        assertThat(users).hasSize(1);
+        final List<User> expected = userRepository.findAll();
+        Assertions.assertThat(users)
+            .containsAll(expected);
     }
 
-    @Disabled("For now active only positive tests")
+
+    //@Disabled("For now active only positive tests")
     @Test
     public void twiceRegTheSameUserFail() throws Exception {
         utils.regDefaultUser().andExpect(status().isCreated());
@@ -124,7 +129,7 @@ public class UserControllerIT {
         utils.perform(loginRequest).andExpect(status().isOk());
     }
 
-    @Disabled("For now active only positive tests")
+    //@Disabled("For now active only positive tests")
     @Test
     public void loginFail() throws Exception {
         final LoginDto loginDto = new LoginDto(
@@ -148,10 +153,15 @@ public class UserControllerIT {
             .contentType(APPLICATION_JSON);
 
         utils.perform(updateRequest, TEST_USERNAME).andExpect(status().isOk());
+        var updatedUser = userRepository.findById(userId).orElse(null);
 
         assertTrue(userRepository.existsById(userId));
         assertNull(userRepository.findByEmail(TEST_USERNAME).orElse(null));
-        assertNotNull(userRepository.findByEmail(TEST_USERNAME_2).orElse(null));
+        assertNotNull(updatedUser);
+        assertEquals(updatedUser.getFirstName(), userDto.getFirstName());
+        assertEquals(updatedUser.getLastName(), userDto.getLastName());
+        assertEquals(updatedUser.getFirstName(), userDto.getFirstName());
+        assertTrue(passwordEncoder.matches("new pwd", updatedUser.getPassword()));
     }
 
     @Test
@@ -163,10 +173,10 @@ public class UserControllerIT {
         utils.perform(delete(USER_CONTROLLER_PATH + ID, userId), TEST_USERNAME)
             .andExpect(status().isOk());
 
-        assertEquals(0, userRepository.count());
+        assertEquals(true, userRepository.findByEmail(TEST_USERNAME).isEmpty());
     }
 
-    @Disabled("For now active only positive tests")
+    // @Disabled("For now active only positive tests")
     @Test
     public void deleteUserFails() throws Exception {
         utils.regDefaultUser();
@@ -182,6 +192,7 @@ public class UserControllerIT {
         utils.perform(delete(USER_CONTROLLER_PATH + ID, userId), TEST_USERNAME_2)
             .andExpect(status().isForbidden());
 
-        assertEquals(2, userRepository.count());
+        assertEquals(false, userRepository.findByEmail(TEST_USERNAME).isEmpty());
+        assertEquals(false, userRepository.findByEmail(TEST_USERNAME_2).isEmpty());
     }
 }

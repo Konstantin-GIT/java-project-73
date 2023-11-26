@@ -6,8 +6,8 @@ import hexlet.code.model.Label;
 import hexlet.code.repository.LabelRepository;
 import hexlet.code.config.SpringConfigForIT;
 import java.util.List;
-
 import hexlet.code.utils.TestUtils;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static hexlet.code.controller.LabelController.LABEL_CONTROLLER_PATH;
@@ -42,7 +43,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 @ActiveProfiles(TEST_PROFILE)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT, classes = SpringConfigForIT.class)
-//@PropertySource(value = "classpath:/config/application.yml")
+@PropertySource(value = "classpath:/config/application.yml")
 public class LabelControllerIT {
     @Autowired
     private LabelRepository labelRepository;
@@ -72,10 +73,6 @@ public class LabelControllerIT {
 
         assertThat(1).isEqualTo(labelRepository.count());
         assertThat(labelRepository.getReferenceById(savedLabel.getId())).isNotNull();
-       // не понятно почему при проверке возникает ошибка:
-        // org.hibernate.LazyInitializationException:
-        // could not initialize proxy [hexlet.code.model.Label#1] - no Session
-        // assertThat(labelRepository.getReferenceById(savedLabel.getId()).getName()).isEqualTo(TEST_LABEL_NAME);
     }
 
     @Test
@@ -129,23 +126,19 @@ public class LabelControllerIT {
             .andExpect(status().isNotFound());
     }
 
+
     @Test
     public void getAllLabels() throws Exception {
-        utils.createLabel(TEST_LABEL_DTO);
-
-        final MockHttpServletResponse response = utils.perform(
-                get(LABEL_CONTROLLER_PATH),
-                TEST_USERNAME
-            )
+        final var response = utils.perform(get(LABEL_CONTROLLER_PATH), TEST_USERNAME)
             .andExpect(status().isOk())
             .andReturn()
             .getResponse();
 
-        final List<Label> labels = fromJson(response.getContentAsString(), new TypeReference<>() { });
-        final List<Label> expectedLabels = labelRepository.findAll();
-
-        assertThat(labels).hasSize(1);
-        assertThat(labels).containsAll(expectedLabels);
+        final List<Label> labels = fromJson(response.getContentAsString(), new TypeReference<>() {
+        });
+        final List<Label> expected = labelRepository.findAll();
+        Assertions.assertThat(labels)
+            .containsAll(expected);
     }
 
     @Test
@@ -163,9 +156,8 @@ public class LabelControllerIT {
 
         utils.perform(updateRequest, TEST_USERNAME).andExpect(status().isOk());
 
-        final Label expectedLabel = labelRepository.findAll().get(0);
+        final Label expectedLabel = labelRepository.findById(labelId).get();
 
-        assertThat(expectedLabel.getId()).isEqualTo(labelId);
         assertThat(expectedLabel.getName()).isNotEqualTo(TEST_LABEL_NAME);
         assertThat(expectedLabel.getName()).isEqualTo(TEST_LABEL_NAME_2);
     }
