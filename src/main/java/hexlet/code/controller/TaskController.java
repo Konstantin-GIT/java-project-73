@@ -38,7 +38,6 @@ public class TaskController {
     private static final String ONLY_AUTHOR_BY_ID = """
             @taskRepository.findById(#id).get().getAuthor().getEmail() == authentication.getName()
             """;
-
     private final TaskRepository taskRepository;
     private final TaskService taskService;
 

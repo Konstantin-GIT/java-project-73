@@ -3,15 +3,14 @@ package hexlet.code.service;
 import hexlet.code.dto.LabelDto;
 import hexlet.code.model.Label;
 import hexlet.code.repository.LabelRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-
-
 @Service
+@AllArgsConstructor
 public class LabelServiceImpl implements LabelService {
-    @Autowired
-    private LabelRepository labelRepository;
+
+    private final LabelRepository labelRepository;
 
     public Label create(LabelDto labelDto) {
         Label label = new Label();

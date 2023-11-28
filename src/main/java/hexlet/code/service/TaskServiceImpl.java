@@ -7,7 +7,7 @@ import hexlet.code.model.TaskStatus;
 import hexlet.code.model.User;
 import hexlet.code.repository.TaskRepository;
 import hexlet.code.model.Label;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
@@ -16,19 +16,16 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class TaskServiceImpl implements TaskService {
 
-    @Autowired
-    private UserServiceImpl userService;
+    private final UserServiceImpl userService;
 
-    @Autowired
-    private TaskStatusService taskStatusService;
+    private final TaskStatusService taskStatusService;
 
-    @Autowired
-    private TaskRepository taskRepository;
+    private final TaskRepository taskRepository;
 
-    @Autowired
-    private LabelService labelService;
+    private final LabelService labelService;
 
 
     public List<Task> getAllTasks(Predicate predicate) {
