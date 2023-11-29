@@ -19,7 +19,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static hexlet.code.controller.LabelController.LABEL_CONTROLLER_PATH;
-import static hexlet.code.controller.UserController.ID;
+import static hexlet.code.controller.LabelController.ID;
 import static hexlet.code.config.SpringConfigForIT.TEST_PROFILE;
 import static hexlet.code.utils.TestUtils.TEST_USER_DTO;
 import static hexlet.code.utils.TestUtils.fromJson;
@@ -43,7 +43,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 @ActiveProfiles(TEST_PROFILE)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT, classes = SpringConfigForIT.class)
-@PropertySource(value = "classpath:/config/application.yml")
+@PropertySource(value = "classpath:/config/application-test.yml")
 public class LabelControllerIT {
     @Autowired
     private LabelRepository labelRepository;
@@ -62,13 +62,11 @@ public class LabelControllerIT {
 
     @Test
     public void createLabel() throws Exception {
-       // assertThat(0).isEqualTo(labelRepository.count());
 
         final MockHttpServletResponse response = utils.createLabel(TEST_LABEL_DTO)
             .andExpect(status().isCreated())
             .andReturn()
             .getResponse();
-
         final Label savedLabel = fromJson(response.getContentAsString(), new TypeReference<>() { });
 
         assertThat(1).isEqualTo(labelRepository.count());
@@ -98,7 +96,7 @@ public class LabelControllerIT {
     public void getLabelById() throws Exception {
         utils.createLabel(TEST_LABEL_DTO);
 
-        final Label expectedLabel = labelRepository.findAll().get(0);
+        final Label expectedLabel = labelRepository.findByName(TEST_LABEL_NAME).get();
         final MockHttpServletResponse response = utils.perform(
                 get(LABEL_CONTROLLER_PATH + ID, expectedLabel.getId()),
                 TEST_USERNAME
@@ -117,10 +115,17 @@ public class LabelControllerIT {
     public void getLabelByIdFail() throws Exception {
         utils.createLabel(TEST_LABEL_DTO);
 
-        final Label expectedLabel = labelRepository.findAll().get(0);
+        final Label expectedLabel = labelRepository.findByName(TEST_LABEL_NAME).get();
 
         utils.perform(
-                get(LABEL_CONTROLLER_PATH + ID, expectedLabel.getId() + 1),
+            delete(LABEL_CONTROLLER_PATH + ID, expectedLabel.getId() + 1),
+            TEST_USERNAME
+        ).andExpect(status().isOk());
+
+        Long notExistLabelId = expectedLabel.getId() + 1;
+
+        utils.perform(
+                get(LABEL_CONTROLLER_PATH + ID, notExistLabelId),
                 TEST_USERNAME
             )
             .andExpect(status().isNotFound());

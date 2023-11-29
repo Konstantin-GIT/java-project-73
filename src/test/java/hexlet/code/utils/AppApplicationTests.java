@@ -12,7 +12,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-//@PropertySource(value = "classpath:/config/application.yml")
 // Чтобы исключить влияние тестов друг на друга, каждый тест будет выполняться в транзакции.
 // После завершения теста транзакция автоматически откатывается
 @Transactional
@@ -27,13 +26,6 @@ public class AppApplicationTests {
         // Проверка, что контекст Spring загружается без ошибок
     }
 
-
-// !! не смог разобраться почему этот тест падает
-//    @Test
-//    public void mainMethodTest() {
-//        // Проверка, что метод main запускается без ошибок
-//        AppApplication.main(new String[]{});
-//    }
 
     @Test
     public void testWelcomePage() throws Exception {

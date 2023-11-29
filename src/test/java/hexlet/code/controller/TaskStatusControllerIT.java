@@ -43,7 +43,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles(TEST_PROFILE)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT, classes = SpringConfigForIT.class)
-@PropertySource(value = "classpath:/config/application.yml")
+@PropertySource(value = "classpath:/config/application-test.yml")
 public class TaskStatusControllerIT {
 
     @Autowired

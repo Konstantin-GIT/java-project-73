@@ -45,7 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles(TEST_PROFILE)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT, classes = SpringConfigForIT.class)
-@PropertySource(value = "classpath:/config/application.yml")
+@PropertySource(value = "classpath:/config/application-test.yml")
 public class UserControllerIT {
 
     @Autowired
@@ -75,7 +75,7 @@ public class UserControllerIT {
     @Test
     public void getUserById() throws Exception {
         utils.regDefaultUser();
-        final User expectedUser = userRepository.findAll().get(0);
+        final User expectedUser = userRepository.findByEmail(TEST_USERNAME).get();
         final var response = utils.perform(
                 get(USER_CONTROLLER_PATH + ID, expectedUser.getId()),
                 expectedUser.getEmail()

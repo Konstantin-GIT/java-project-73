@@ -11,9 +11,7 @@ import static hexlet.code.config.SpringConfigForIT.TEST_PROFILE;
 @Profile(TEST_PROFILE)
 @EnableAspectJAutoProxy
 @ComponentScan(basePackages = "hexlet.code")
-//конфиг файл "/config/application.yml" находится в директории test, там по сути нет настроек,
-// предлгаю его оставить на будучее чтобы можно было конфигурировать тесты отдельно
-@PropertySource(value = "classpath:/config/application.yml")
+@PropertySource(value = "classpath:/config/application-test.yml")
 public class SpringConfigForIT {
 
     public static final String TEST_PROFILE = "test";
