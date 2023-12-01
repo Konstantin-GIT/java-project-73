@@ -96,10 +96,10 @@ public class TaskController {
     })
     @PutMapping(ID)
     @ResponseStatus(OK)
-    public Task update(@PathVariable Long id, @RequestBody  @Valid TaskDto mayBeTaskDto) {
+    public Task update(@PathVariable Long id, @RequestBody  @Valid TaskDto taskDto) {
         var task = taskRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("User with id " + id + " not found"));
-        var taskForUpdate = taskService.update(mayBeTaskDto, task);
+        var taskForUpdate = taskService.update(taskDto, task);
         var updatedTask = taskRepository.save(taskForUpdate);
         return updatedTask;
     }

@@ -16,7 +16,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -37,6 +37,6 @@ public class TaskStatus {
     @Size(min = 1, message = "Название статуса должно быть не менее 1 символа")
     private String name;
     @CreatedDate
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
 }

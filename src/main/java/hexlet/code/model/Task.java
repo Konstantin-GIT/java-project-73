@@ -20,7 +20,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Getter
@@ -59,5 +59,5 @@ public class Task {
     private Set<Label> labels;
 
     @CreatedDate
-    private Date createdAt;
+    private LocalDateTime createdAt;
 }
